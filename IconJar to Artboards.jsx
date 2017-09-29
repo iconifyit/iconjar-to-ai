@@ -183,17 +183,17 @@ function get( subject, key, _default ) {
 function getScreenSize() {
 
     try {
-		if (view = app.activeDocument.views[0] ) {
-			view.zoom = 1;
-			return {
-				left   : parseInt(view.bounds[0]),
-				top    : parseInt(view.bounds[1]),
-				right  : parseInt(view.bounds[2]),
-				bottom : parseInt(view.bounds[3]),
-				width  : parseInt(view.bounds[2]) - parseInt(view.bounds[0]),
-				height : parseInt(view.bounds[1]) - parseInt(view.bounds[3])
-			};
-		}
+        if (view = app.activeDocument.views[0] ) {
+            view.zoom = 1;
+            return {
+                left   : parseInt(view.bounds[0]),
+                top    : parseInt(view.bounds[1]),
+                right  : parseInt(view.bounds[2]),
+                bottom : parseInt(view.bounds[3]),
+                width  : parseInt(view.bounds[2]) - parseInt(view.bounds[0]),
+                height : parseInt(view.bounds[1]) - parseInt(view.bounds[3])
+            };
+        }
     }
     catch(ex){/*Exit Gracefully*/}
     return null;
@@ -603,9 +603,9 @@ function filesToArtboards() {
             try {
                 var f = new File(CONFIG.SRC_FOLDER + CONFIG.ICONS_FOLDER + meta.items[i].file);
                 logger("FILE [" + i + "]: " + f);
-            	if (f.exists) {
-            	    svgFile = doc.groupItems.createFromFile(f);
-            	}
+                if (f.exists) {
+                    svgFile = doc.groupItems.createFromFile(f);
+                }
 
                 updateProgress(progress);
 
@@ -632,8 +632,8 @@ function filesToArtboards() {
             }
             catch(ex) {
                 logger(
-                	"Error in `doc.groupItems.createFromFile` with file `" 
-                	+ meta.items[i] + " `. Error: " + ex
+                    "Error in `doc.groupItems.createFromFile` with file `" 
+                    + meta.items[i] + " `. Error: " + ex
                 );
             }
 
