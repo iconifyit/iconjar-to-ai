@@ -39,8 +39,19 @@
 
 #target Illustrator
 
+#include "/Users/scott/jsx/JSON.jsxinc";
+#include "/Users/scott/jsx/Utils.jsxinc";
+
 var originalInteractionLevel = userInteractionLevel;
 userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
+
+/**
+ * @type {{HOME: string, START: string}}
+ */
+var PATH = {
+    HOME   : (new Folder($.getenv("HOME"))).absoluteURI + "/",
+    START  : (new Folder($.getenv("HOME"))).absoluteURI + "/"
+};
 
 /**
  * Default configuration. Many of these values are over-written by the dialog.
@@ -75,14 +86,19 @@ var CONFIG = {
     PATH_SEPATATOR      : "/",
     SORT_ARTBOARDS      : true,
     META_FILE_NAME      : "META.json",
-    META_FILE           : ''
-}
+    META_FILE           : '',
+    AI_TOOLS_PATH       : "/Users/scott/github/iconify/ai-tools/",
+    USER_HOME           : '/Users/scott/',
+    START_DIR           : '~/Desktop/'
+};
 
+// TODO: Update this to use localize(), Adobe's built-in localization scheme.
 /**
  * Use this object to translate the buttons and dialog labels to the language of your choice.
  */
 var LANG = {
     CHOOSE_FOLDER          : 'Please choose your Folder of files to merge',
+    CHOOSE_FILE            : 'Choose an IconJar archive to import.',
     NO_SELECTION           : 'No selection',
     LABEL_DIALOG_WINDOW    : 'Merge SVG Files',
     LABEL_ARTBOARD_WIDTH   : 'Artboard Width:',
@@ -99,6 +115,7 @@ var LANG = {
     LAYER_NOT_CREATED      : 'Could not create layer. ',
     LABEL_SRC_FOLDER       : 'Source Folder',
     LABEL_CHOOSE_FOLDER    : 'Choose Folder',
+    LABEL_CHOOSE_FILE      : 'Choose File',
     LABEL_INPUT            : 'Input',
     LABEL_SIZE             : 'Size',
     LABEL_OUTPUT           : 'Output',
@@ -106,97 +123,6 @@ var LANG = {
     LABEL_SORT_ARTBOARDS   : 'Sort Artboards?',
     PROGRESS               : 'IconJar to Illustrator Progress',
     SCRIPT_PROGRESS        : 'Progress'
-}
-
-//=================================== FUNCTIONS ====================================//
-if(!Array.prototype.indexOf) {
-    Array.prototype.indexOf = function(what, i) {
-        i = i || 0;
-        var L = this.length;
-        while (i < L) {
-            if(this[i] === what) return i;
-            ++i;
-        }
-        return -1;
-    };
-}
-
-Array.prototype.remove = function() {
-    var what, a = arguments, L = a.length, ax;
-    while (L && this.length) {
-        what = a[--L];
-        while ((ax = this.indexOf(what)) !== -1) {
-            this.splice(ax, 1);
-        }
-    }
-    return this;
-};
-
-/*-------------------------------------------------------------------------------------------------------------------------*/
-"object"!=typeof JSON&&(JSON={}),function(){"use strict";function f(t){return 10>t?"0"+t:t}function quote(t){
-    return escapable.lastIndex=0,escapable.test(t)?'"'+t.replace(escapable,function(t){var e=meta[t];
-            return"string"==typeof e?e:"\\u"+("0000"+t.charCodeAt(0).toString(16)).slice(-4)})+'"':'"'+t+'"'}
-    function str(t,e){var n,r,o,f,u,i=gap,p=e[t];switch(p&&"object"==typeof p&&"function"==typeof p.toJSON&&(p=p.toJSON(t)),
-    "function"==typeof rep&&(p=rep.call(e,t,p)),typeof p){case"string":return quote(p);case"number":return isFinite(p)?String(p):"null";
-        case"boolean":case"null":return String(p);case"object":if(!p)return"null";if(gap+=indent,u=[],"[object Array]"===Object.prototype.toString.apply(p)){
-            for(f=p.length,n=0;f>n;n+=1)u[n]=str(n,p)||"null";return o=0===u.length?"[]":gap?"[\n"+gap+u.join(",\n"+gap)+"\n"+i+"]":"["+u.join(",")+"]",gap=i,o}
-            if(rep&&"object"==typeof rep)for(f=rep.length,n=0;f>n;n+=1)"string"==typeof rep[n]&&(r=rep[n],o=str(r,p),o&&u.push(quote(r)+(gap?": ":":")+o));
-            else for(r in p)Object.prototype.hasOwnProperty.call(p,r)&&(o=str(r,p),o&&u.push(quote(r)+(gap?": ":":")+o));return o=0===u.length?"{}":gap?"{\n"+gap+
-                    u.join(",\n"+gap)+"\n"+i+"}":"{"+u.join(",")+"}",gap=i,o}}"function"!=typeof Date.prototype.toJSON&&(Date.prototype.toJSON=function(){
-        return isFinite(this.valueOf())?this.getUTCFullYear()+"-"+f(this.getUTCMonth()+1)+"-"+f(this.getUTCDate())+"T"+f(this.getUTCHours())+":"+
-            f(this.getUTCMinutes())+":"+f(this.getUTCSeconds())+"Z":null},String.prototype.toJSON=Number.prototype.toJSON=Boolean.prototype.toJSON=function(){
-        return this.valueOf()});var cx,escapable,gap,indent,meta,rep;"function"!=typeof JSON.stringify&&
-    (escapable=/[\\\"\x00-\x1f\x7f-\x9f\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-        meta={"\b":"\\b","  ":"\\t","\n":"\\n","\f":"\\f","\r":"\\r",'"':'\\"',"\\":"\\\\"},JSON.stringify=function(t,e,n){var r;
-        if(gap="",indent="","number"==typeof n)for(r=0;n>r;r+=1)indent+=" ";else"string"==typeof n&&(indent=n);if(rep=e,
-            e&&"function"!=typeof e&&("object"!=typeof e||"number"!=typeof e.length))throw new Error("JSON.stringify");return str("",{"":t})}),
-    "function"!=typeof JSON.parse&&(cx=/[\u0000\u00ad\u0600-\u0604\u070f\u17b4\u17b5\u200c-\u200f\u2028-\u202f\u2060-\u206f\ufeff\ufff0-\uffff]/g,
-        JSON.parse=function(text,reviver){function walk(t,e){var n,r,o=t[e];if(o&&"object"==typeof o)for(n in o)Object.prototype.hasOwnProperty.call(o,n)&&
-        (r=walk(o,n),void 0!==r?o[n]=r:delete o[n]);return reviver.call(t,e,o)}var j;if(text=String(text),cx.lastIndex=0,cx.test(text)&&
-            (text=text.replace(cx,function(t){return"\\u"+("0000"+t.charCodeAt(0).toString(16)).slice(-4)})),
-                /^[\],:{}\s]*$/.test(text.replace(/\\(?:["\\\/bfnrt]|u[0-9a-fA-F]{4})/g,"@")
-                    .replace(/"[^"\\\n\r]*"|true|false|null|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?/g,"]")
-                    .replace(/(?:^|:|,)(?:\s*\[)+/g,"")))return j=eval("("+text+")"),"function"==typeof reviver?walk({"":j},""):j;
-            throw new SyntaxError("JSON.parse")})}();
-/*-------------------------------------------------------------------------------------------------------------------------*/
-
-/**
- * Get a value from an object or array.
- * @param subject
- * @param key
- * @param _default
- * @returns {*}
- */
-function get( subject, key, _default ) {
-    var value = _default;
-    if (typeof(subject[key]) != 'undefined') {
-        value = subject[key];
-    }
-    return value;
-}
-
-/**
- * Gets the screen dimensions and bounds.
- * @returns {{left: *, top: *, right: *, bottom: *}}
- * ,,-605,263,1893,-1048
- */
-function getScreenSize() {
-
-    try {
-        if (view = app.activeDocument.views[0] ) {
-            view.zoom = 1;
-            return {
-                left   : parseInt(view.bounds[0]),
-                top    : parseInt(view.bounds[1]),
-                right  : parseInt(view.bounds[2]),
-                bottom : parseInt(view.bounds[3]),
-                width  : parseInt(view.bounds[2]) - parseInt(view.bounds[0]),
-                height : parseInt(view.bounds[1]) - parseInt(view.bounds[3])
-            };
-        }
-    }
-    catch(ex){/*Exit Gracefully*/}
-    return null;
 }
 
 /**
@@ -225,8 +151,9 @@ function doDisplayDialog() {
     var dialogHeight = 410;
     var dialogLeft   = 550;
     var dialogTop    = 300;
+    var SAVED_CONFIG = {};
 
-    if ( bounds = getScreenSize() ) {
+    if ( bounds = Utils.getScreenSize() ) {
         dialogLeft = Math.abs(Math.ceil((bounds.width/2) - (dialogWidth/2)));
     }
 
@@ -246,10 +173,7 @@ function doDisplayDialog() {
 
     try {
 
-        var configFile = new File(CONFIG.CONFIG_FILE_PATH);
-        if (configFile.exists) {
-            CONFIG = JSON.parse(read_file(configFile));
-        }
+        SAVED_CONFIG = Utils.get_config(CONFIG.CONFIG_FILE_PATH);
 
         /**
          * Row height
@@ -279,23 +203,23 @@ function doDisplayDialog() {
         dialog.sourcePanel            = dialog.add('panel',      [p1, 290, p2, 350],  LANG.LABEL_INPUT);
 
         dialog.artboardWidthLabel     = dialog.add('statictext', [c1, r1, c1w, 70],   LANG.LABEL_ARTBOARD_WIDTH);
-        dialog.artboardWidth          = dialog.add('edittext',   [c2, r1, c2w, 70],   CONFIG.ARTBOARD_WIDTH);
+        dialog.artboardWidth          = dialog.add('edittext',   [c2, r1, c2w, 70],   SAVED_CONFIG.ARTBOARD_WIDTH);
         dialog.artboardWidth.active   = true;
 
         dialog.artboardHeightLabel    = dialog.add('statictext', [c1, 70, c1w, 100],  LANG.LABEL_ARTBOARD_HEIGHT);
-        dialog.artboardHeight         = dialog.add('edittext',   [c2, 70, c2w, 100],  CONFIG.ARTBOARD_HEIGHT);
+        dialog.artboardHeight         = dialog.add('edittext',   [c2, 70, c2w, 100],  SAVED_CONFIG.ARTBOARD_HEIGHT);
         dialog.artboardHeight.active  = true;
 
         dialog.artboardSpacingLabel   = dialog.add('statictext', [c1, 100, c1w, 130], LANG.LABEL_ARTBOARD_SPACING);
-        dialog.artboardSpacing        = dialog.add('edittext',   [c2, 100, c2w, 130], CONFIG.ARTBOARD_SPACING);
+        dialog.artboardSpacing        = dialog.add('edittext',   [c2, 100, c2w, 130], SAVED_CONFIG.ARTBOARD_SPACING);
         dialog.artboardSpacing.active = true;
 
         dialog.scaleLabel             = dialog.add('statictext', [c1, 130, c1w, 160], LANG.LABEL_SCALE);
-        dialog.scale                  = dialog.add('edittext',   [c2, 130, c2w, 160], CONFIG.SCALE);
+        dialog.scale                  = dialog.add('edittext',   [c2, 130, c2w, 160], SAVED_CONFIG.SCALE);
         dialog.scale.active           = true;
 
         dialog.filenameLabel          = dialog.add('statictext', [c1, 190, c1w, 220], LANG.LABEL_FILE_NAME);
-        dialog.filename               = dialog.add('edittext',   [c2, 190, 334, 220], CONFIG.OUTPUT_FILENAME);
+        dialog.filename               = dialog.add('edittext',   [c2, 190, 334, 220], SAVED_CONFIG.OUTPUT_FILENAME);
         dialog.filename.active        = true;
 
         dialog.logging                = dialog.add('checkbox',   [c1, 230, c1w, 300], LANG.LABEL_LOGGING);
@@ -304,10 +228,10 @@ function doDisplayDialog() {
         dialog.sortboards             = dialog.add('checkbox',   [c1, 260, c1w, 330], LANG.LABEL_SORT_ARTBOARDS);
         dialog.sortboards.value       = CONFIG.SORT_ARTBOARDS;
 
-        dialog.folderBtn              = dialog.add('button',     [c1, 310, c1w, 340],  LANG.LABEL_CHOOSE_FOLDER, {name: 'folder'})
+        dialog.fileBtn                = dialog.add('button',     [c1, 310, c1w, 340],  LANG.LABEL_CHOOSE_FILE, {name: 'iconjar'})
 
-        dialog.srcFolder              = dialog.add('edittext',   [140, 310, 424, 340], CONFIG.SRC_FOLDER);
-        dialog.srcFolder.active       = false;
+        dialog.srcFile                = dialog.add('edittext',   [140, 310, 424, 340], SAVED_CONFIG.SRC_FILE);
+        dialog.srcFile.active         = false;
 
         dialog.cancelBtn              = dialog.add('button',     [232, 360, 332, 390], LANG.BUTTON_CANCEL, {name: 'cancel'});
         dialog.openBtn                = dialog.add('button',     [334, 360, 434, 390], LANG.BUTTON_OK, {name: 'ok'});
@@ -318,21 +242,35 @@ function doDisplayDialog() {
             return false;
         };
 
-        dialog.folderBtn.onClick = function() {
-            var srcFolder;
-            if ( srcFolder = Folder.selectDialog( CONFIG.CHOOSE_FOLDER ) ) {
+        dialog.fileBtn.onClick = function() {
 
-                if ( srcFolder.fs == 'Windows' ) {
-                    CONFIG.PATH_SEPATATOR = "\\"
+            var srcFile = Utils.chooseFile(
+                new File(CONFIG.START_DIR),
+                LANG.CHOOSE_FILE,
+                "*.inconjar"
+            );
+
+            if (! srcFile instanceof File) return;
+
+            try {
+                if (srcFile.alias) {
+                    while (srcFile.alias) {
+                        srcFile = srcFile.resolve().openDlg(
+                            LANG.CHOOSE_FILE,
+                            "*.inconjar",
+                            false
+                        );
+                    }
                 }
-
-                var srcFolderPath = srcFolder.path + CONFIG.PATH_SEPATATOR + srcFolder.name + CONFIG.PATH_SEPATATOR;
-                dialog.srcFolder.text = srcFolderPath;
-                CONFIG.SRC_FOLDER = srcFolderPath;
-                if ( trim(dialog.filename.text) == '' ) {
-                    dialog.filename.text = srcFolder.name + '-merged.ai';
+                dialog.srcFile.text = decodeURIComponent(srcFile.absoluteURI);
+                CONFIG.SRC_FILE     = decodeURIComponent(srcFile.absoluteURI);
+                if ( Utils.trim(dialog.filename.text) == '' ) {
+                    dialog.filename.text = srcFile.name + '-merged.ai';
                     CONFIG.OUTPUT_FILENAME = dialog.filename.text;
                 }
+            }
+            catch(ex) {
+                Utils.logger(ex.message);
             }
         }
 
@@ -345,11 +283,18 @@ function doDisplayDialog() {
             CONFIG.SPACING             = parseInt(dialog.artboardSpacing.text);
             CONFIG.SCALE               = parseInt(dialog.scale.text);
             CONFIG.OUTPUT_FILENAME     = dialog.filename.text;
-            CONFIG.META_FILE           = CONFIG.SRC_FOLDER + CONFIG.META_FILE_NAME;
+
+            CONFIG.SRC_FILE            = decodeURIComponent(dialog.srcFile.text);
+
+            CONFIG.META_GZ_FILE        = Utils.expand_path(CONFIG.SRC_FILE  + '/META', CONFIG.USER_HOME);
+            CONFIG.META_JSON_FILE      = Utils.expand_path(new File(CONFIG.SRC_FILE).path + '/META.json', CONFIG.USER_HOME);
+
+            CONFIG.ICONS_FOLDER        = new File(CONFIG.SRC_FILE).absoluteURI + '/icons/';
+            CONFIG.START_DIR           = new File(CONFIG.SRC_FILE).path;
+
+            Utils.write_file(CONFIG.CONFIG_FILE_PATH, JSON.stringify(CONFIG), true);
 
             dialog.close();
-
-            write_file(CONFIG.CONFIG_FILE_PATH, JSON.stringify(CONFIG), true);
 
             response = true;
             return true;
@@ -357,131 +302,20 @@ function doDisplayDialog() {
         dialog.show();
     }
     catch(ex) {
-        logger(ex);
+        Utils.logger(ex);
         alert(ex);
     }
     return response;
 }
 
 /**
- * Display a new progress bar.
- * @param maxvalue
- * @returns {*}
- */
-function showProgressBar(maxvalue) {
-
-    var top, right, bottom, left;
-
-    if ( bounds = getScreenSize() ) {
-        left = Math.abs(Math.ceil((bounds.width/2) - (450/2)));
-        top = Math.abs(Math.ceil((bounds.height/2) - (100/2)));
-    }
-
-    var progress = new Window("palette", LANG.PROGRESS, [left, top, left + 450, top + 100]);
-    progress.pnl = progress.add("panel", [10, 10, 440, 100], LANG.SCRIPT_PROGRESS);
-    progress.pnl.progBar = progress.pnl.add("progressbar", [20, 35, 410, 60], 0, maxvalue);
-    progress.pnl.progBarLabel = progress.pnl.add("statictext", [20, 20, 320, 35], "0 of " + maxvalue);
-
-    progress.show();
-
-    return progress;
-}
-
-/**
- * Updates the progress bar.
- * @param progress
- * @returns {*}
- */
-function updateProgress(progress) {
-    progress.pnl.progBar.value++;
-    var val = progress.pnl.progBar.value;
-    var max = progress.pnl.progBar.maxvalue;
-    progress.pnl.progBarLabel.text = val + ' of ' + max;
-    $.sleep(10);
-    progress.update();
-    return progress;
-}
-
-/**
  * Convert IconJar tags to filename
- * @param {string} tags  Comma-separated list of tags.
+ * @param {string}      tags  Comma-separated list of tags.
  * @returns {string}
  */
 function tagsToNameSlug(tags) {
     tags = tags.toLowerCase();
     return tags.split(',').join('-').replace(' ','-');
-}
-
-/**
- * Loads META.json
- */
-function doLoadMetaData(filepath) {
-
-    var read_file = new File(filepath);
-
-    if (read_file) {
-        try {
-
-            if (read_file.alias) {
-                while (read_file.alias) {
-                    read_file = read_file.resolve().openDlg(
-                        LANG.CHOOSE_FILE,
-                        json_filter,
-                        false
-                    );
-                }
-            }
-
-            read_file.open('r', undefined, undefined);
-            if (read_file !== '') {
-                var meta = JSON.parse(read_file.read());
-                read_file.close();
-
-                var items = [];
-                if (typeof(meta.items) == "object") {
-                    for (key in meta.items) {
-                        items.push(meta.items[key]);
-                    }
-                }
-                meta.items = items;
-
-                return meta;
-            }
-        }
-        catch(ex) {
-            try { read_file.close(); }catch(ex){};
-            logger("ERROR: " + ex.message);
-        }
-    }
-}
-
-/**
- * Cleans up the filename/artboardname.
- * @param {String}    name    The name to filter and reformat.
- * @return {String}           The cleaned up name.
- */
-function filterName(name) {
-
-    return decodeURIComponent(name).replace(' ', '-');
-}
-
-/**
- * Callback for sorting the SVG filelist.
- * @param a
- * @param b
- * @returns {number}
- */
-function sortMethod(a, b) {
-    var nameA = tagsToNameSlug(a.tags);
-    var nameB = tagsToNameSlug(b.tags);
-    if (nameA < nameB) {
-        return -1;
-    }
-    if (nameA > nameB) {
-        return 1;
-    }
-    // names must be equal
-    return 0;
 }
 
 /**
@@ -496,7 +330,6 @@ function getSetName(meta) {
         setName = (meta.sets[key].name).toLowerCase().replace(' ', '-');
         break;
     }
-
     return setName;
 }
 
@@ -507,7 +340,7 @@ function getSetName(meta) {
  */
 function filenameToTags(fileName) {
     var tags = fileName.toLowerCase().replace('.svg', '').replace(' ', '-').split('-').join(',');
-    logger("TAGS: " + tags);
+    Utils.logger("TAGS: " + tags);
     return tags;
 }
 
@@ -519,7 +352,7 @@ function filenameToTags(fileName) {
 function ensureTags(meta) {
     for (i=0; i<meta.items.length; i++) {
         var item = meta.items[i];
-        if (trim(item.tags) == '') {
+        if (Utils.trim(item.tags) == '') {
             meta.items[i].tags = filenameToTags(item.file);
         }
     }
@@ -527,23 +360,61 @@ function ensureTags(meta) {
 }
 
 /**
+ * Loads META.json
+ * @returns {object}
+ */
+function doLoadMetaData() {
+
+    var module_code = "module.exports = " + JSON.stringify({
+        inputfile: CONFIG.META_GZ_FILE,
+        outputfile: CONFIG.META_JSON_FILE
+    });
+
+    CONFIG.NODE_META_MODULE = CONFIG.AI_TOOLS_PATH + 'var/meta.js';
+
+    return Utils.write_and_call(
+        CONFIG.NODE_META_MODULE,
+        module_code,
+        function(module) {
+            if (module.exists) {
+                var command = new File(CONFIG.AI_TOOLS_PATH + 'command.app');
+                command.execute();
+
+                var meta_file = new File(CONFIG.META_JSON_FILE);
+
+                if (meta_file.exists) {
+                    return Utils.read_json_file(CONFIG.META_JSON_FILE);
+                }
+            }
+        }
+    );
+}
+
+/**
  * Import files to artboards. Sets artboard name to file name minus file extension.
  */
-function filesToArtboards() {
+function main() {
 
-    var doc, fileList, i, srcFolder, mm, svgFile;
+    var doc, fileList, i, srcFolder, mm, svgFilemeta ;
 
     if (! doDisplayDialog()) {
         return;
     }
 
-    srcFolder = new Folder(CONFIG.SRC_FOLDER);
+    srcFile = new File(CONFIG.SRC_FILE);
 
-    if ( srcFolder == null ) return;
+    if ( ! srcFile instanceof File) return;
 
-    meta = ensureTags(doLoadMetaData(CONFIG.META_FILE));
+    meta = ensureTags(doLoadMetaData());
 
     CONFIG.OUTPUT_FILENAME = getSetName(meta) + '.ai';
+
+    var items = [];
+    for (key in meta.items) {
+        items.push(meta.items[key]);
+    }
+
+    meta.items = items;
 
     /**
      * Make sure it has AI files in it…
@@ -552,10 +423,10 @@ function filesToArtboards() {
 
         if (CONFIG.SORT_ARTBOARDS == true) {
             try {
-                meta.items.sort(sortMethod);
+                meta.items.sort(Utils.comparator);
             }
             catch(ex) {
-                logger(LANG.SORT_FILELIST_FAILED);
+                Utils.logger(LANG.SORT_FILELIST_FAILED);
             }
         }
 
@@ -577,7 +448,9 @@ function filesToArtboards() {
             CONFIG.ARTBOARD_ROWSxCOLS = Math.round(Math.sqrt(meta.items.length))
         );
 
-        var progress = showProgressBar(CONFIG.ARTBOARD_COUNT);
+        Utils.showProgressBar(CONFIG.ARTBOARD_COUNT);
+
+        app.executeMenuCommand("fitall");
 
         /**
          * Loop thru the counter
@@ -591,7 +464,7 @@ function filesToArtboards() {
 
             var boardName = tagsToNameSlug(meta.items[i].tags);
 
-            if (trim(boardName) == '') {
+            if (Utils.trim(boardName) == '') {
                 boardName = tagsToNameSlug(meta.items[i].file.replace('.svg', ''));
             }
 
@@ -601,13 +474,15 @@ function filesToArtboards() {
              * Create group from SVG
              */
             try {
-                var f = new File(CONFIG.SRC_FOLDER + CONFIG.ICONS_FOLDER + meta.items[i].file);
-                logger("FILE [" + i + "]: " + f);
+                var f = new File(CONFIG.ICONS_FOLDER + meta.items[i].file);
+
+                Utils.logger("FILE [" + i + "]: " + f);
+
                 if (f.exists) {
                     svgFile = doc.groupItems.createFromFile(f);
                 }
 
-                updateProgress(progress);
+                Utils.updateProgress('Placing icon ' + meta.items[i].file);
 
                 /**
                  * Move relative to this artboards rulers
@@ -627,21 +502,24 @@ function filesToArtboards() {
                     }
                     catch(ex) {/*Exit Gracefully*/}
                 }
-
+                redraw();
                 alignToNearestPixel(doc.selection);
             }
             catch(ex) {
-                logger(
-                    "Error in `doc.groupItems.createFromFile` with file `" 
+                Utils.logger(
+                    "Error in `doc.groupItems.createFromFile` with file `"
                     + meta.items[i] + " `. Error: " + ex
                 );
             }
-
         };
 
-        progress.close();
+        Utils.progress.close();
 
-        saveFileAsAi(srcFolder.path + CONFIG.PATH_SEPATATOR + CONFIG.OUTPUT_FILENAME);
+        Utils.saveFileAsAi(
+            doc,
+            File(CONFIG.SRC_FILE).path + '/' + CONFIG.OUTPUT_FILENAME,
+            Compatibility.ILLUSTRATOR17
+        );
     };
 
     try {
@@ -652,108 +530,6 @@ function filesToArtboards() {
 };
 
 /**
- * Saves a file in Ai format.
- * @param dest
- */
-function saveFileAsAi(dest) {
-    if (app.documents.length > 0) {
-        var options = new IllustratorSaveOptions();
-        var theDoc  = new File(dest);
-        options.flattenOutput = OutputFlattening.PRESERVEAPPEARANCE;
-        options.pdfCompatible = true;
-        app.activeDocument.saveAs(theDoc, options);
-    }
-}
-
-/**
- * Align objects to nearest pixel.
- * @param sel
- */
-function alignToNearestPixel(sel) {
-
-    try {
-        if (typeof sel != "object") {
-            logger(LANG.NO_SELECTION);
-        }
-        else {
-            for (i = 0 ; i < sel.length; i++) {
-                sel[i].left = Math.round(sel[i].left);
-                sel[i].top = Math.round(sel[i].top);
-            }
-            redraw();
-        }
-    }
-    catch(ex) {
-        logger(ex);
-    }
-}
-
-/**
- * Trims a string.
- * @param str
- * @returns {XML|string|void}
- */
-function trim(str) {
-    return str.replace(/^\s+|\s+$/g, '');
-}
-
-/**
- * Logging for this script.
- * @param <string> The logging text
- * @return void
- */
-function logger(txt) {
-
-    if (CONFIG.LOGGING == 0) return;
-    write_file(CONFIG.LOG_FILE_PATH, "[" + new Date().toUTCString() + "] " + txt, false);
-}
-
-/**
- * Write a file to disc.
- * @param path
- * @param txt
- * @param replace
- */
-function write_file( path, txt, replace ) {
-    try {
-        var file = new File( path );
-        if (replace && file.exists) {
-            file.remove();
-            file = new File( path );
-        }
-        file.open("e", "TEXT", "????");
-        file.seek(0,2);
-        $.os.search(/windows/i)  != -1 ? file.lineFeed = 'windows'  : file.lineFeed = 'macintosh';
-        file.writeln(txt);
-        file.close();
-    }
-    catch(ex) {
-        try { file.close(); }
-        catch(ex) {/* Exit Gracefully*/}
-    }
-}
-
-/**
- * Reads the contents of a file.
- * @param {File} fp     A file object.
- * @returns {string}
- */
-function read_file(fp) {
-    var data = '';
-
-    try {
-        fp.open('r', undefined, undefined);
-        data = fp.read();
-        fp.close();
-    }
-    catch(e) {
-        try { fp.close(); }catch(e){}
-        /* Exit gracefully for now */
-    }
-    return data;
-}
-
-/**
  * Execute the script.
  */
-filesToArtboards(); 
+main();
