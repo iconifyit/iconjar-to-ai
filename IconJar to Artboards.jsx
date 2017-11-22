@@ -39,8 +39,8 @@
 
 #target Illustrator
 
-#include "/Users/scott/jsx/JSON.jsxinc";
-#include "/Users/scott/jsx/Utils.jsxinc";
+#include "/Users/scott/github/iconify/jsx-common/JSON.jsxinc";
+#include "/Users/scott/github/iconify/jsx-common/Utils.jsxinc";
 
 var originalInteractionLevel = userInteractionLevel;
 userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
@@ -48,10 +48,10 @@ userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
 /**
  * @type {{HOME: string, START: string}}
  */
-var PATH = {
-    HOME   : (new Folder($.getenv("HOME"))).absoluteURI + "/",
-    START  : (new Folder($.getenv("HOME"))).absoluteURI + "/"
-};
+// var PATH = {
+//     HOME   : (new Folder($.getenv("HOME"))).absoluteURI + "/",
+//     START  : (new Folder($.getenv("HOME"))).absoluteURI + "/"
+// };
 
 /**
  * Default configuration. Many of these values are over-written by the dialog.
@@ -152,9 +152,10 @@ function doDisplayDialog() {
     var dialogLeft   = 550;
     var dialogTop    = 300;
     var SAVED_CONFIG = {};
+    var screen       = null;
 
-    if ( bounds = Utils.getScreenSize() ) {
-        dialogLeft = Math.abs(Math.ceil((bounds.width/2) - (dialogWidth/2)));
+    if ( screen = Utils.getScreenResolution() ) {
+        dialogLeft = Math.abs(Math.ceil((screen.width/2) - (dialogWidth/2)));
     }
 
     /**
@@ -287,7 +288,7 @@ function doDisplayDialog() {
             CONFIG.SRC_FILE            = decodeURIComponent(dialog.srcFile.text);
 
             CONFIG.META_GZ_FILE        = Utils.expand_path(CONFIG.SRC_FILE  + '/META', CONFIG.USER_HOME);
-            CONFIG.META_JSON_FILE      = Utils.expand_path(new File(CONFIG.SRC_FILE).path + '/META.json', CONFIG.USER_HOME);
+            CONFIG.META_JSON_FILE      = Utils.expand_path(CONFIG.AI_TOOLS_PATH + '/var/META.json', CONFIG.USER_HOME);
 
             CONFIG.ICONS_FOLDER        = new File(CONFIG.SRC_FILE).absoluteURI + '/icons/';
             CONFIG.START_DIR           = new File(CONFIG.SRC_FILE).path;
@@ -368,7 +369,7 @@ function doLoadMetaData() {
     var module_code = "module.exports = " + JSON.stringify({
         inputfile: CONFIG.META_GZ_FILE,
         outputfile: CONFIG.META_JSON_FILE
-    });
+    },null,2);
 
     CONFIG.NODE_META_MODULE = CONFIG.AI_TOOLS_PATH + 'var/meta.js';
 
