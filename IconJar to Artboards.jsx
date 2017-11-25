@@ -154,7 +154,7 @@ function doDisplayDialog() {
     var SAVED_CONFIG = {};
     var screen       = null;
 
-    if ( screen = Utils.getScreenResolution() ) {
+    if ( screen = Utils.getScreenSize() ) {
         dialogLeft = Math.abs(Math.ceil((screen.width/2) - (dialogWidth/2)));
     }
 
@@ -163,14 +163,7 @@ function doDisplayDialog() {
      * default: //550, 350, 1000, 800
      */
 
-    var dialog = new Window(
-        "dialog", LANG.LABEL_DIALOG_WINDOW, [
-            dialogLeft,
-            dialogTop,
-            dialogLeft + dialogWidth,
-            dialogTop + dialogHeight
-        ]
-    );
+    var dialog = Utils.window("palette", LANG.LABEL_DIALOG_WINDOW, 550, 410);
 
     try {
 
@@ -195,7 +188,7 @@ function doDisplayDialog() {
         var c2w = c2 + 50;
 
         var p1 = 16;
-        var p2 = dialogWidth - 16;
+        var p2 = dialog.frameSize.width - 16;
 
         var r1 = 40;
 
@@ -231,7 +224,7 @@ function doDisplayDialog() {
 
         dialog.fileBtn                = dialog.add('button',     [c1, 310, c1w, 340],  LANG.LABEL_CHOOSE_FILE, {name: 'iconjar'})
 
-        dialog.srcFile                = dialog.add('edittext',   [140, 310, 424, 340], SAVED_CONFIG.SRC_FILE);
+        dialog.srcFile                = dialog.add('edittext',   [150, 310, p2 - 10, 340], SAVED_CONFIG.SRC_FILE);
         dialog.srcFile.active         = false;
 
         dialog.cancelBtn              = dialog.add('button',     [232, 360, 332, 390], LANG.BUTTON_CANCEL, {name: 'cancel'});
@@ -298,7 +291,6 @@ function doDisplayDialog() {
             dialog.close();
 
             response = true;
-            return true;
         };
         dialog.show();
     }
@@ -409,6 +401,8 @@ function main() {
     meta = ensureTags(doLoadMetaData());
 
     CONFIG.OUTPUT_FILENAME = getSetName(meta) + '.ai';
+
+    $.sleep(1000);
 
     var items = [];
     for (key in meta.items) {
