@@ -19,8 +19,6 @@
  * OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  * THE SOFTWARE.
  *
- */
-/**
  *  Installation:
  *
  *      1. Copy this file to Illustrator > Presets > Scripting
@@ -37,21 +35,31 @@
  *      maximum of 100 artboards.
  */
 
+/**
+ * Set script target.
+ */
 #target Illustrator
 
-#include "/Users/scott/github/iconify/jsx-common/JSON.jsxinc";
-#include "/Users/scott/github/iconify/jsx-common/Utils.jsxinc";
-
-var originalInteractionLevel = userInteractionLevel;
-userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
+/**
+ * Set includes path.
+ */
+#includepath "/Users/scott/github/iconify/jsx-common/";
 
 /**
- * @type {{HOME: string, START: string}}
+ * Include dependencies.
  */
-// var PATH = {
-//     HOME   : (new Folder($.getenv("HOME"))).absoluteURI + "/",
-//     START  : (new Folder($.getenv("HOME"))).absoluteURI + "/"
-// };
+#include "JSON.jsxinc";
+#include "Utils.jsxinc";
+
+/**
+ * Set the script name.
+ */
+#script "IconJar to Artboards";
+
+/**
+ * Turn off alert displays.
+ */
+Utils.displayAlertsOff();
 
 /**
  * Default configuration. Many of these values are over-written by the dialog.
@@ -70,12 +78,13 @@ userInteractionLevel = UserInteractionLevel.DONTDISPLAYALERTS;
  * }}
  */
 var CONFIG = {
+    APP_NAME            : "iconjar-to-ai",
     ARTBOARD_COUNT      : 1,
     ARTBOARD_WIDTH      : 24,
     ARTBOARD_HEIGHT     : 24,
     ARTBOARD_SPACING    : 24,
     ARTBOARD_ROWSxCOLS  : 10,
-    LOG_FILE_PATH       : "~/Downloads/ai-iconjar2artboards-log.txt",
+    LOG_FILE_PATH       : "/var/log/ai-jsx/ai-iconjar2artboards.log",
     CONFIG_FILE_PATH    : "~/Downloads/ai-ij2ab-conf.json",
     LOGGING             : true,
     OUTPUT_FILENAME     : 'iconjar-to-artboards.ai',
@@ -92,7 +101,12 @@ var CONFIG = {
     START_DIR           : '~/Desktop/'
 };
 
-// TODO: Update this to use localize(), Adobe's built-in localization scheme.
+/**
+ * Create the logger instance.
+ * @type {Logger}
+ */
+var logger = new Logger("iconjar-to-ai");
+
 /**
  * Use this object to translate the buttons and dialog labels to the language of your choice.
  */
@@ -123,7 +137,7 @@ var LANG = {
     LABEL_SORT_ARTBOARDS   : 'Sort Artboards?',
     PROGRESS               : 'IconJar to Illustrator Progress',
     SCRIPT_PROGRESS        : 'Progress'
-}
+};
 
 /**
  * Displays the settings dialog
@@ -137,33 +151,26 @@ var LANG = {
  *    - scale
  *    - logging enabled
  *
- *    - number of cols        = divide page width by cell width
- *    - number of rows        = divide page height by cell height
- *    - side margins          = (page width - (col count * col width))/2
- *    - top/bottom margins    = (page height - (row count * row width))/2
+ *    - number of cols     = divide page width by cell width
+ *    - number of rows     = divide page height by cell height
+ *    - side margins       = (page width - (col count * col width))/2
+ *    - top/bottom margins = (page height - (row count * row width))/2
  *
  * @return boolean|Settings object
  */
 function doDisplayDialog() {
 
     var response     = false;
-    var dialogWidth  = 450;
-    var dialogHeight = 410;
-    var dialogLeft   = 550;
-    var dialogTop    = 300;
     var SAVED_CONFIG = {};
-    var screen       = null;
-
-    if ( screen = Utils.getScreenSize() ) {
-        dialogLeft = Math.abs(Math.ceil((screen.width/2) - (dialogWidth/2)));
-    }
 
     /**
      * Dialog bounds: [ Left, TOP, RIGHT, BOTTOM ]
      * default: //550, 350, 1000, 800
      */
 
-    var dialog = Utils.window("palette", LANG.LABEL_DIALOG_WINDOW, 550, 410);
+    var dialog = Utils.window("dialog", LANG.LABEL_DIALOG_WINDOW, 550, 410);
+
+    logger.info(localize({en_US: "Success : %1 : %2"}, $.fileName, $.line));
 
     try {
 
@@ -281,7 +288,7 @@ function doDisplayDialog() {
             CONFIG.SRC_FILE            = decodeURIComponent(dialog.srcFile.text);
 
             CONFIG.META_GZ_FILE        = Utils.expand_path(CONFIG.SRC_FILE  + '/META', CONFIG.USER_HOME);
-            CONFIG.META_JSON_FILE      = Utils.expand_path(CONFIG.AI_TOOLS_PATH + '/var/META.json', CONFIG.USER_HOME);
+            CONFIG.META_JSON_FILE      = Utils.expand_path(CONFIG.AI_TOOLS_PATH + 'var/META.json', CONFIG.USER_HOME);
 
             CONFIG.ICONS_FOLDER        = new File(CONFIG.SRC_FILE).absoluteURI + '/icons/';
             CONFIG.START_DIR           = new File(CONFIG.SRC_FILE).path;
@@ -292,11 +299,13 @@ function doDisplayDialog() {
 
             response = true;
         };
+
         dialog.show();
     }
     catch(ex) {
-        Utils.logger(ex);
-        alert(ex);
+        var errorMessage = localise({en_US: ex + "(file: %1, line: %2)"}, $.fileName, $.line);
+        logger.error(errorMessage);
+        alert(errorMessage);
     }
     return response;
 }
@@ -333,7 +342,7 @@ function getSetName(meta) {
  */
 function filenameToTags(fileName) {
     var tags = fileName.toLowerCase().replace('.svg', '').replace(' ', '-').split('-').join(',');
-    Utils.logger("TAGS: " + tags);
+    logger.info(localize({en_US: "TAGS : %1"}, tags));
     return tags;
 }
 
@@ -396,7 +405,7 @@ function main() {
 
     srcFile = new File(CONFIG.SRC_FILE);
 
-    if ( ! srcFile instanceof File) return;
+    if (! srcFile instanceof File) return;
 
     meta = ensureTags(doLoadMetaData());
 
@@ -418,10 +427,10 @@ function main() {
 
         if (CONFIG.SORT_ARTBOARDS == true) {
             try {
-                meta.items.sort(Utils.comparator);
+                meta.items.sort(comparator);
             }
             catch(ex) {
-                Utils.logger(LANG.SORT_FILELIST_FAILED);
+                logger.error(localize({en_US: "%1 : %2"}, LANG.SORT_FILELIST_FAILED, ex));
             }
         }
 
@@ -471,13 +480,13 @@ function main() {
             try {
                 var f = new File(CONFIG.ICONS_FOLDER + meta.items[i].file);
 
-                Utils.logger("FILE [" + i + "]: " + f);
+                logger.error(localize({en_US: "FILE [%1] %2"}, i, f));
 
                 if (f.exists) {
                     svgFile = doc.groupItems.createFromFile(f);
                 }
 
-                Utils.updateProgress('Placing icon ' + meta.items[i].file);
+                Utils.updateProgress(localize({en_US: 'Placing icon %1'}, meta.items[i].file));
 
                 /**
                  * Move relative to this artboards rulers
@@ -501,10 +510,9 @@ function main() {
                 alignToNearestPixel(doc.selection);
             }
             catch(ex) {
-                Utils.logger(
-                    "Error in `doc.groupItems.createFromFile` with file `"
-                    + meta.items[i] + " `. Error: " + ex
-                );
+                Utils.logger(localize({
+                    en_US: "Error in `doc.groupItems.createFromFile` with file `%1`. Error: %2"
+                }, meta.items[i], ex));
             }
         };
 
@@ -517,12 +525,36 @@ function main() {
         );
     };
 
-    try {
-        userInteractionLevel = originalInteractionLevel;
-    }
-    catch(ex) {/*Exit Gracefully*/}
-
+    Utils.displayAlertsOn();
 };
+
+/**
+ * Cleans up the filename/artboardname.
+ * @param   {String}    name    The name to filter and reformat.
+ * @returns  {String}            The cleaned up name.
+ */
+function filterName(name) {
+    return decodeURIComponent(name).replace(' ', '-');
+}
+
+/**
+ * Callback for sorting the file list.
+ * @param   {File}  a
+ * @param   {File}  b
+ * @returns {number}
+ */
+function comparator(a, b) {
+    var nameA = filterName(a.name.toUpperCase());
+    var nameB = filterName(b.name.toUpperCase());
+    if (nameA < nameB) {
+        return -1;
+    }
+    if (nameA > nameB) {
+        return 1;
+    }
+    // names must be equal
+    return 0;
+}
 
 /**
  * Execute the script.
