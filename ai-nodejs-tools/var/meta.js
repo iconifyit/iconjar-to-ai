@@ -1,1 +1,4 @@
-module.exports = {  "inputfile": "/Users/scott/Desktop/avatars-iconjar/Iconjar-avatars/robots.iconjar/META",  "outputfile": "/Users/scott/github/iconify/ai-tools/var/META.json"}
+module.exports = {
+  "inputfile": "/path/to/input/my-icons.iconjar/META",
+  "outputfile": "/path/to/ai-tools/var/META.json"
+}
