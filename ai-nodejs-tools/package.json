@@ -1,0 +1,38 @@
+{
+  "name": "ai-tools",
+  "version": "1.0.0",
+  "description": "A collection of tools for enhancing Adobe Illustrator JSX scripts",
+  "main": "app.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/iconifyit/ai-tools.git"
+  },
+  "keywords": [
+    "jsx",
+    "adobe",
+    "illustrator",
+    "adobe",
+    "creative",
+    "cloud",
+    "extendscript",
+    "iconjar",
+    "gzip"
+  ],
+  "author": "Scott Lewis <scott@vectoricons.net>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/iconifyit/ai-tools/issues"
+  },
+  "homepage": "https://github.com/iconifyit/ai-tools#readme",
+  "dependencies": {
+    "bufferstream": "^0.6.2",
+    "zlib": "^1.0.5"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  }
+}
