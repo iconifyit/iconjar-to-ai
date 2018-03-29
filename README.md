@@ -10,6 +10,7 @@ To get around these limitations, arguments to be used are written to a NodeJS-fo
 
 ### Step-by-Step
 
-1. Download this repository as a ZIP archive or by cloning the git repository - `git clone git@github.com:iconifyit/iconjar-to-ai.git`
+1. Download this repository as a ZIP archive or by cloning the git repository 
+    `git clone git@github.com:iconifyit/iconjar-to-ai.git`
 2. 
 

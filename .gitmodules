@@ -1,0 +1,4 @@
+[submodule "jsx-common"]
+	path = jsx-common
+	url = git@github.com:iconifyit/jsx-common.git
+	branch = master
