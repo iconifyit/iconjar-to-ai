@@ -1,0 +1,25 @@
+var EXPORTABLE = (function(template) {
+    var self = new Object();
+
+    for (key in template) {
+        self[key] = template[key];
+    }
+
+    return self;
+})({
+    LOG_FOLDER_PATH     : "",
+    LOG_FILE_PATH       : "",
+    CONFIG_FOLDER_PATH  : "",
+    CONFIG_FILE_PATH    : "",
+    START_DIR           : "",
+    USER_HOME           : "",
+    ARTBOARD_WIDTH      : 0,
+    ARTBOARD_HEIGHT     : 0,
+    ARTBOARD_SPACING    : 0,
+    ARTBOARD_ROWSxCOLS  : 0,
+    SCALE               : 0,
+    SORT_ARTBOARDS      : true,
+    LOGGING             : true,
+    SRC_FILE            : "",
+    OUTPUT_FILENAME     : "",
+});
