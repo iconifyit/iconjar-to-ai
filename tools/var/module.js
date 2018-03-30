@@ -1,0 +1,1 @@
+module.exports = {  "inputfile": "/Users/scott/github/iconify/iconjar-to-ai/test-data/social-icons.iconjar/META",  "outputfile": "/Users/scott/github/iconify/iconjar-to-ai/tools/var/META.json"}

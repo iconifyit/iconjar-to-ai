@@ -11,9 +11,9 @@
  *   You are free to use, modify, and distribute this script as you see fit.
  *   No credit is required but would be greatly appreciated.
  *
- *   Scott Lewis - scott@iconify.it
+ *   Scott Lewis - scott@atomiclotus.it
  *   http://github.com/iconifyit
- *   http://iconify.it
+ *   http://atomiclotus.net
  *
  *   THIS SCRIPT IS OFFERED AS-IS WITHOUT ANY WARRANTY OR GUARANTEES OF ANY KIND.
  *   YOU USE THIS SCRIPT COMPLETELY AT YOUR OWN RISK AND UNDER NO CIRCUMSTANCES WILL
@@ -30,7 +30,7 @@
 /**
  * Include the libraries we need.
  */
-#includepath "/Users/scott/github/iconify/jsx-common/";
+#includepath "jsx-common/";
 
 #include "JSON.jsxinc";
 #include "Utils.jsxinc";
@@ -39,7 +39,7 @@
 /**
  * Name that script.
  */
-#script "IconJar to Artboards";
+#script "IconJar to AI Artboards";
 
 /**
  * Disable Illustrator's alerts.
@@ -49,8 +49,7 @@ Utils.displayAlertsOff();
 /**
  * Set some global variables.
  */
-var DATE_STRING      = Utils.dateFormat(new Date().getTime());
-var SESSION_FILENAME = "ai-" + DATE_STRING + "-r1.json";
+var $HERE = new File($.fileName).path + '/';
 
 /**
  * Default configuration. Many of these values are over-written by the dialog.
@@ -75,11 +74,8 @@ var CONFIG = {
     ARTBOARD_HEIGHT     : 24,
     ARTBOARD_SPACING    : 24,
     ARTBOARD_ROWSxCOLS  : 10,
-    LOG_FILE_PATH       : "/var/log/ai-jsx/ai-iconjar2artboards.log",
-    CONFIG_FILE_PATH    : "~/Downloads/ai-ij2ab-conf.json",
     LOGGING             : true,
-    OUTPUT_FILENAME     : 'iconjar-to-artboards.ai',
-    SCALE               : 100,
+
     ROOT                : "~/Documents",
     SRC_FOLDER          : '~/Desktop/',
     ICONS_FOLDER        : 'icons/',
@@ -87,10 +83,29 @@ var CONFIG = {
     SORT_ARTBOARDS      : true,
     META_FILE_NAME      : "META.json",
     META_FILE           : '',
-    AI_TOOLS_PATH       : "/Users/scott/github/iconify/ai-tools/",
-    USER_HOME           : '/Users/scott/',
-    START_DIR           : '~/Desktop/'
+    AI_TOOLS_PATH       : $HERE + "tools/",
+
+
+    APPLET_NAME         : 'commander.app',
+    NODEJS_MODULE_NAME  : 'module.js',
+
+    // You can safely change these
+
+    LOG_FOLDER_PATH     : $HERE + "tools/var/log/",
+    LOG_FILE_PATH       : $HERE + "tools/var/log/iconjar-to-ai.log",
+    CONFIG_FOLDER_PATH  : $HERE + "tools/var/conf/",
+    CONFIG_FILE_PATH    : $HERE + "tools/var/conf/iconjar-to-ai-conf.json",
+    START_DIR           : '~/github/iconify/iconjar-to-ai/',
+    USER_HOME           : '~/',
+    SCALE               : 100,
+    OUTPUT_FILENAME     : 'iconjar-to-artboards.ai'
 };
+
+// Import external configs to over-ride the settings above.
+
+#include "config.js";
+
+Utils.extend(CONFIG, MY_CONFIG);
 
 /**
  * Use this object to translate the buttons and dialog labels to the language of your choice.
@@ -124,10 +139,10 @@ var CONFIG = {
  * }}
  */
 var LANG = {
-    CHOOSE_FOLDER          : 'Please choose your Folder of files to merge',
+    CHOOSE_FOLDER          : 'Choose IconJar archive',
     CHOOSE_FILE            : 'Choose an IconJar archive to import.',
     NO_SELECTION           : 'No selection',
-    LABEL_DIALOG_WINDOW    : 'Merge SVG Files',
+    LABEL_DIALOG_WINDOW    : 'Import IconJar Archive',
     LABEL_ARTBOARD_WIDTH   : 'Artboard Width:',
     LABEL_ARTBOARD_HEIGHT  : 'Artboard Height:',
     LABEL_COL_COUNT        : 'Columns:',
@@ -167,14 +182,16 @@ var Module = (function(CONFIG) {
      * The local scope logger object.
      * @type {Logger}
      */
-    var logger = new Logger(CONFIG.APP_NAME, CONFIG.AI_TOOLS_PATH + "var/");
+    var logger = new Logger(CONFIG.APP_NAME, Utils.folder(CONFIG.LOG_FOLDER_PATH));
 
     /**
      * The Dialog for this module.
      * @returns {*}
      * @constructor
      */
-    var Dialog = function() {
+    function doDisplayDialog() {
+
+        var response = false;
 
         /**
          * Dialog bounds: [ Left, TOP, RIGHT, BOTTOM ]
@@ -182,9 +199,17 @@ var Module = (function(CONFIG) {
          */
         dialog = Utils.window("dialog", LANG.LABEL_DIALOG_WINDOW, 550, 410);
 
+        dialog.center();
+
+        dialog.response = "Foobar";
+
         try {
 
+            Utils.folder(CONFIG.CONFIG_FOLDER_PATH);
+
             SAVED_CONFIG = Utils.get_config(CONFIG.CONFIG_FILE_PATH);
+
+            Utils.extend(CONFIG, SAVED_CONFIG);
 
             /**
              * Row height
@@ -214,23 +239,23 @@ var Module = (function(CONFIG) {
             dialog.sourcePanel            = dialog.add('panel',      [p1, 290, p2, 350],  LANG.LABEL_INPUT);
 
             dialog.artboardWidthLabel     = dialog.add('statictext', [c1, r1, c1w, 70],   LANG.LABEL_ARTBOARD_WIDTH);
-            dialog.artboardWidth          = dialog.add('edittext',   [c2, r1, c2w, 70],   SAVED_CONFIG.ARTBOARD_WIDTH);
+            dialog.artboardWidth          = dialog.add('edittext',   [c2, r1, c2w, 70],   CONFIG.ARTBOARD_WIDTH);
             dialog.artboardWidth.active   = true;
 
             dialog.artboardHeightLabel    = dialog.add('statictext', [c1, 70, c1w, 100],  LANG.LABEL_ARTBOARD_HEIGHT);
-            dialog.artboardHeight         = dialog.add('edittext',   [c2, 70, c2w, 100],  SAVED_CONFIG.ARTBOARD_HEIGHT);
+            dialog.artboardHeight         = dialog.add('edittext',   [c2, 70, c2w, 100],  CONFIG.ARTBOARD_HEIGHT);
             dialog.artboardHeight.active  = true;
 
             dialog.artboardSpacingLabel   = dialog.add('statictext', [c1, 100, c1w, 130], LANG.LABEL_ARTBOARD_SPACING);
-            dialog.artboardSpacing        = dialog.add('edittext',   [c2, 100, c2w, 130], SAVED_CONFIG.ARTBOARD_SPACING);
+            dialog.artboardSpacing        = dialog.add('edittext',   [c2, 100, c2w, 130], CONFIG.ARTBOARD_SPACING);
             dialog.artboardSpacing.active = true;
 
             dialog.scaleLabel             = dialog.add('statictext', [c1, 130, c1w, 160], LANG.LABEL_SCALE);
-            dialog.scale                  = dialog.add('edittext',   [c2, 130, c2w, 160], SAVED_CONFIG.SCALE);
+            dialog.scale                  = dialog.add('edittext',   [c2, 130, c2w, 160], CONFIG.SCALE);
             dialog.scale.active           = true;
 
             dialog.filenameLabel          = dialog.add('statictext', [c1, 190, c1w, 220], LANG.LABEL_FILE_NAME);
-            dialog.filename               = dialog.add('edittext',   [c2, 190, 334, 220], SAVED_CONFIG.OUTPUT_FILENAME);
+            dialog.filename               = dialog.add('edittext',   [c2, 190, 334, 220], CONFIG.OUTPUT_FILENAME);
             dialog.filename.active        = true;
 
             dialog.logging                = dialog.add('checkbox',   [c1, 230, c1w, 300], LANG.LABEL_LOGGING);
@@ -241,195 +266,103 @@ var Module = (function(CONFIG) {
 
             dialog.fileBtn                = dialog.add('button',     [c1, 310, c1w, 340],  LANG.LABEL_CHOOSE_FILE, {name: 'iconjar'})
 
-            dialog.srcFile                = dialog.add('edittext',   [150, 310, p2 - 10, 340], SAVED_CONFIG.SRC_FILE);
+            dialog.srcFile                = dialog.add('edittext',   [150, 310, p2 - 10, 340], CONFIG.SRC_FILE);
             dialog.srcFile.active         = false;
 
             dialog.cancelBtn              = dialog.add('button',     [232, 360, 332, 390], LANG.BUTTON_CANCEL, {name: 'cancel'});
             dialog.openBtn                = dialog.add('button',     [334, 360, 434, 390], LANG.BUTTON_OK, {name: 'ok'});
-
-            dialog.cancelBtn.onClick      = doCancelCallback;
-            dialog.fileBtn.onClick        = doFileCallback;
-            dialog.openBtn.onClick        = doOpenCallback;
-
-            dialog.addEventListener('close', function(e) {
-                dialog.hide();
-            });
-
         }
         catch(ex) {
             var errorMessage = localise({en_US: ex + "(file: %1, line: %2)"}, $.fileName, $.line);
             logger.error(errorMessage);
-            alert(errorMessage);
         }
 
-        return dialog;
-    };
+        dialog.cancelBtn.onClick = function() {
+            dialog.close();
+            return response = false;
+        };
 
-    var doCancelCallback = function() {
-        dialog.close();
-        response = false;
-        return false;
-    };
+        dialog.fileBtn.onClick = function() {
 
-    var doFileCallback = function() {
+            var srcFile = Utils.chooseFile(
+                new File(CONFIG.START_DIR),
+                LANG.CHOOSE_FILE,
+                "*.inconjar"
+            );
 
-        var srcFile = Utils.chooseFile(
-            new File(CONFIG.START_DIR),
-            LANG.CHOOSE_FILE,
-            "*.inconjar"
-        );
+            if (! srcFile instanceof File) return;
 
-        if (! srcFile instanceof File) return;
-
-        try {
-            if (srcFile.alias) {
-                while (srcFile.alias) {
-                    srcFile = srcFile.resolve().openDlg(
-                        LANG.CHOOSE_FILE,
-                        "*.inconjar",
-                        false
-                    );
-                }
-            }
-            dialog.srcFile.text = decodeURIComponent(srcFile.absoluteURI);
-            CONFIG.SRC_FILE     = decodeURIComponent(srcFile.absoluteURI);
-            if ( Utils.trim(dialog.filename.text) == '' ) {
-                dialog.filename.text = srcFile.name + '-merged.ai';
-                CONFIG.OUTPUT_FILENAME = dialog.filename.text;
-            }
-        }
-        catch(ex) {
-            logger.error(ex.message);
-        }
-    };
-
-    /**
-     * Callback to open the selected session.
-     */
-    var doOpenCallback = function() {
-
-        logger.info(localize({en_US: "%1 : %2"}, $.fileName, $.line));
-
-        CONFIG.ARTBOARD_WIDTH      = parseInt(dialog.artboardWidth.text);
-        CONFIG.ARTBOARD_HEIGHT     = parseInt(dialog.artboardHeight.text);
-        CONFIG.LOGGING             = dialog.logging.value;
-        CONFIG.SORT_ARTBOARDS      = dialog.sortboards.value;
-        CONFIG.SPACING             = parseInt(dialog.artboardSpacing.text);
-        CONFIG.SCALE               = parseInt(dialog.scale.text);
-        CONFIG.OUTPUT_FILENAME     = dialog.filename.text;
-
-        CONFIG.SRC_FILE            = decodeURIComponent(dialog.srcFile.text);
-
-        CONFIG.META_GZ_FILE        = Utils.expand_path(CONFIG.SRC_FILE  + '/META', CONFIG.USER_HOME);
-        CONFIG.META_JSON_FILE      = Utils.expand_path(CONFIG.AI_TOOLS_PATH + 'var/META.json', CONFIG.USER_HOME);
-
-        CONFIG.ICONS_FOLDER        = new File(CONFIG.SRC_FILE).absoluteURI + '/icons/';
-        CONFIG.START_DIR           = new File(CONFIG.SRC_FILE).path;
-
-        Utils.write_file(CONFIG.CONFIG_FILE_PATH, JSON.stringify(CONFIG), true);
-
-        dialog.close();
-
-        doIconImports();
-    };
-
-    var setTimeout = function(callback, duration) {
-         var counter = 0;
-         while (counter < duration) {
-             $.sleep(duration/10);
-             counter += duration/10;
-         }
-         callback.call(this);
-    };
-
-    /**
-     * Convert IconJar tags to filename
-     * @param {string}      tags  Comma-separated list of tags.
-     * @returns {string}
-     */
-    function tagsToNameSlug(tags) {
-        tags = tags.toLowerCase();
-        return tags.split(',').join('-').replace(' ','-');
-    }
-
-    /**
-     * Get the set name from the meta object.
-     * @param {object} meta
-     * @returns {string}
-     */
-    var getSetName = function(meta) {
-        var setName = CONFIG.OUTPUT_FILENAME;
-
-        for (key in meta.sets) {
-            setName = (meta.sets[key].name).toLowerCase().replace(' ', '-');
-            break;
-        }
-        return setName;
-    };
-
-    /**
-     * Convert file name to tags.
-     * @param {string} fileName The file name to convert to tags.
-     * @returns {string}
-     */
-    var filenameToTags = function(fileName) {
-        return fileName.toLowerCase().replace('.svg', '').replace(' ', '-').split('-').join(',');
-    };
-
-    /**
-     * Ensure all items have tags.
-     * @param {object} meta The meta object.
-     * @return {object} the updated meta object
-     */
-    var ensureTags = function(meta) {
-        for (i=0; i<meta.items.length; i++) {
-            var item = meta.items[i];
-            if (Utils.trim(item.tags) == '') {
-                meta.items[i].tags = filenameToTags(item.file);
-            }
-        }
-        return meta;
-    };
-
-    /**
-     * Loads META.json
-     * @returns {object}
-     */
-    var doLoadMetaData = function() {
-
-        var module_code = "module.exports = " + JSON.stringify({
-                inputfile: CONFIG.META_GZ_FILE,
-                outputfile: CONFIG.META_JSON_FILE
-            },null,2);
-
-        CONFIG.NODE_META_MODULE = CONFIG.AI_TOOLS_PATH + 'var/meta.js';
-
-        return Utils.write_and_call(
-            CONFIG.NODE_META_MODULE,
-            module_code,
-            function(module) {
-                if (module.exists) {
-                    var command = new File(CONFIG.AI_TOOLS_PATH + 'command.app');
-                    command.execute();
-
-                    var meta_file = new File(CONFIG.META_JSON_FILE);
-
-                    if (meta_file.exists) {
-                        return Utils.read_json_file(CONFIG.META_JSON_FILE);
+            try {
+                if (srcFile.alias) {
+                    while (srcFile.alias) {
+                        srcFile = srcFile.resolve().openDlg(
+                            LANG.CHOOSE_FILE,
+                            "*.inconjar",
+                            false
+                        );
                     }
                 }
+                // alert(srcFile.fsName);
+                dialog.srcFile.text = srcFile.fsName;
+                CONFIG.SRC_FILE     = srcFile.fsName;
+                if ( Utils.trim(dialog.filename.text) == '' ) {
+                    dialog.filename.text = srcFile.name + '-merged.ai';
+                    CONFIG.OUTPUT_FILENAME = dialog.filename.text;
+                }
             }
-        );
+            catch(ex) {
+                logger.error(ex.message);
+            }
+        };
+
+        /**
+         * Callback to open the selected session.
+         */
+        dialog.openBtn.onClick = function() {
+
+            dialog.onClose = function() {
+                logger.info(localize({en_US: "%1 : %2"}, $.fileName, $.line));
+
+                CONFIG.ARTBOARD_WIDTH      = parseInt(dialog.artboardWidth.text);
+                CONFIG.ARTBOARD_HEIGHT     = parseInt(dialog.artboardHeight.text);
+                CONFIG.LOGGING             = dialog.logging.value;
+                CONFIG.SORT_ARTBOARDS      = dialog.sortboards.value;
+                CONFIG.SPACING             = parseInt(dialog.artboardSpacing.text);
+                CONFIG.SCALE               = parseInt(dialog.scale.text);
+                CONFIG.OUTPUT_FILENAME     = dialog.filename.text;
+
+                CONFIG.SRC_FILE            = decodeURIComponent(dialog.srcFile.text);
+
+                CONFIG.META_GZ_FILE        = Utils.expand_path(CONFIG.SRC_FILE  + '/META', CONFIG.USER_HOME);
+                CONFIG.META_JSON_FILE      = Utils.expand_path(CONFIG.AI_TOOLS_PATH + 'var/META.json', CONFIG.USER_HOME);
+
+                CONFIG.ICONS_FOLDER        = new File(CONFIG.SRC_FILE).absoluteURI + '/icons/';
+                CONFIG.START_DIR           = new File(CONFIG.SRC_FILE).path;
+
+                Utils.write_file(CONFIG.CONFIG_FILE_PATH, JSON.stringify(CONFIG), true);
+            };
+
+            dialog.hide();
+            dialog.close();
+
+            return response = true;
+        };
+
+        dialog.show();
+
+        return response;
     };
 
     /**
      * Import the icons to artboards.
      */
-    var doIconImports = function() {
+    var main = function() {
+
+        if (! doDisplayDialog()) {
+            return;
+        }
 
         var doc, fileList, i, srcFolder, mm, svgFilemeta ;
-
-        dialog.close();
 
         if (! (new File(CONFIG.SRC_FILE)).exists) return;
 
@@ -437,8 +370,6 @@ var Module = (function(CONFIG) {
 
         CONFIG.OUTPUT_FILENAME = getSetName(meta) + '.ai';
 
-        $.sleep(1000);
-        
         var items = [];
         for (key in meta.items) {
             items.push(meta.items[key]);
@@ -536,7 +467,7 @@ var Module = (function(CONFIG) {
                     alignToNearestPixel(doc.selection);
                 }
                 catch(ex) {
-                    Utils.logger(localize({
+                    logger.error(localize({
                         en_US: "Error in `doc.groupItems.createFromFile` with file `%1`. Error: %2"
                     }, meta.items[i], ex));
                 }
@@ -552,6 +483,101 @@ var Module = (function(CONFIG) {
         };
 
         Utils.displayAlertsOn();
+
+        try { $.gc(); }
+        catch(e) {/* Nothing we can do. */}
+    };
+
+    var setTimeout = function(callback, duration) {
+        var counter = 0;
+        while (counter < duration) {
+            $.sleep(duration/10);
+            counter += duration/10;
+        }
+        callback.call(this);
+    };
+
+    /**
+     * Convert IconJar tags to filename
+     * @param {string}      tags  Comma-separated list of tags.
+     * @returns {string}
+     */
+    function tagsToNameSlug(tags) {
+        tags = tags.toLowerCase();
+        return tags.split(',').join('-').replace(' ','-');
+    }
+
+    /**
+     * Get the set name from the meta object.
+     * @param {object} meta
+     * @returns {string}
+     */
+    var getSetName = function(meta) {
+        var setName = CONFIG.OUTPUT_FILENAME;
+
+        for (key in meta.sets) {
+            setName = (meta.sets[key].name).toLowerCase().replace(' ', '-');
+            break;
+        }
+        return setName;
+    };
+
+    /**
+     * Convert file name to tags.
+     * @param {string} fileName The file name to convert to tags.
+     * @returns {string}
+     */
+    var filenameToTags = function(fileName) {
+        return fileName.toLowerCase().replace('.svg', '').replace(' ', '-').split('-').join(',');
+    };
+
+    /**
+     * Ensure all items have tags.
+     * @param {object} meta The meta object.
+     * @return {object} the updated meta object
+     */
+    var ensureTags = function(meta) {
+        for (i=0; i<meta.items.length; i++) {
+            var item = meta.items[i];
+            if (Utils.trim(item.tags) == '') {
+                meta.items[i].tags = filenameToTags(item.file);
+            }
+        }
+        return meta;
+    };
+
+    /**
+     * Loads META.json
+     * @returns {object}
+     */
+    var doLoadMetaData = function() {
+
+        var module_code = "module.exports = " + JSON.stringify({
+            inputfile  : new File(CONFIG.META_GZ_FILE).fsName,
+            outputfile : new File(CONFIG.META_JSON_FILE).fsName
+        },null,2);
+
+        CONFIG.NODE_META_MODULE = CONFIG.AI_TOOLS_PATH + 'var/' + CONFIG.NODEJS_MODULE_NAME;
+
+        return Utils.write_and_call(
+            CONFIG.NODE_META_MODULE,
+            module_code,
+            function(module) {
+                if (module.exists) {
+                    var command = new File(CONFIG.AI_TOOLS_PATH + CONFIG.APPLET_NAME);
+                    command.execute();
+
+                    $.sleep(2000);
+
+                    if (new File(CONFIG.META_JSON_FILE).exists) {
+                        return Utils.read_json_file(CONFIG.META_JSON_FILE);
+                    }
+                    else {
+                        logger.error(localize({en_US: "Metadata file [%1] was not found"}, CONFIG.META_JSON_FILE));
+                    }
+                }
+            }
+        );
     };
 
     /**
@@ -580,9 +606,7 @@ var Module = (function(CONFIG) {
         /**
          * Runs the module code.
          */
-        run: function() {
-            new Dialog().show();
-        }
+        run: main
     }
 
 })(CONFIG);
