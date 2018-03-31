@@ -1,12 +1,4 @@
-var EXPORTABLE = (function(template) {
-    var self = new Object();
-
-    for (key in template) {
-        self[key] = template[key];
-    }
-
-    return self;
-})({
+var EXPORTABLE = Utils.create({
     LOG_FOLDER_PATH     : "",
     LOG_FILE_PATH       : "",
     CONFIG_FOLDER_PATH  : "",
