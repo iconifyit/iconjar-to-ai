@@ -40,10 +40,10 @@ https://github.com/iconifyit/iconjar-to-ai/archive/master.zip
 ```
     
 2. Location the download. If you downloaded the ZIP archive, double-click the ZIP file to extract it.
-3. Find the AppleScript applet named **ProfilerApp** and double-clic it.
+3. Find the AppleScript applet named **ProfilerApp** in the _Helpers_ folder in this download, and double-click it.
 4. The **ProfilerApp** will check your system to determine if you need to install `Xcode`, `node`, or `npm`.
 5. To install `Node`, visit https://nodejs.org/en/download/ and follow the MacOS install instructions.
-6. To install `Xcode` locate the enclosed applet named **InstallXcodeTools** and double-click it. If you get an error that says `1 : xcode-select: error: command line tools are already installed, use "Software Update" to install updates`, then you do not need to do anything else. You already have the required Xcode tools.
+6. To install `Xcode` locate the enclosed applet named **InstallXcodeTools** in the _Helpers_ folder in this download, and double-click it. If you get an error that says `1 : xcode-select: error: command line tools are already installed, use "Software Update" to install updates`, then you do not need to do anything else. You already have the required Xcode tools.
 7. After following the installation instructions for `node` and `Xcode`, run the **ProfilerApp** again. You should see **Yes** for all three required packages.
 8. Next, you will need to install the required node packages. To do so, open a Terminal window (`Applications/Utilities/Terminal`).
 9. At the command prompt, type the following:
