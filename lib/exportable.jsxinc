@@ -10,6 +10,7 @@ var EXPORTABLE = Utils.create({
     ARTBOARD_SPACING    : 0,
     ARTBOARD_ROWSxCOLS  : 0,
     SCALE               : 0,
+    AUTO_SCALE          : true,
     SORT_ARTBOARDS      : true,
     LOGGING             : true,
     SRC_FILE            : "",
