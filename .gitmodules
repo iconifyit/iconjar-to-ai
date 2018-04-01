@@ -2,3 +2,6 @@
 	path = lib/jsx-common
 	url = git@github.com:iconifyit/jsx-common.git
 	branch = master
+[submodule "jsx-oas-commander"]
+	path = jsx-oas-commander
+	url = git@github.com:iconifyit/jsx-oas-commander.git
