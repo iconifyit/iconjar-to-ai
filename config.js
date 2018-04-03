@@ -9,8 +9,9 @@
  * }}
  */
 var MY_CONFIG = {
-    LOG_FILE_PATH       : $HERE + "tools/var/log/iconjar-to-ai.log",
-    CONFIG_FILE_PATH    : $HERE + "tools/var/conf/iconjar-to-ai-conf.json",
+	$IJ2AI              : "~/iconjar-to-ai/",
+    LOG_FILE_PATH       : $HERE + "var/log/iconjar-to-ai.log",
+    CONFIG_FILE_PATH    : $HERE + "var/conf/iconjar-to-ai-conf.json",
     ARTBOARD_COUNT      : 1,
     ARTBOARD_WIDTH      : 64,
     ARTBOARD_HEIGHT     : 64,
