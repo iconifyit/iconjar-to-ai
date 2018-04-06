@@ -14,5 +14,6 @@ var EXPORTABLE = Utils.create({
     LOGGING             : true,
     SRC_FILE            : "",
     OUTPUT_FILENAME     : "",
-    COMMANDER_PATH      : ""
+    COMMANDER_PATH      : "",
+    DELAY_DURATION      : 0
 });
