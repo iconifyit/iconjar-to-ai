@@ -1,24 +1,23 @@
 # IconJar to Adobe Illustrator
 
-This collection of scripts is run as a JavaScript Extension script for Adobe Illustrator. The script allows you to select an IconJar archive to extract the enclosed icons and metadata, and import the icons using the icons tags as the artboard name. The benefit of this is that you can then re-export the artboards to any file format you like, using the tags as file names. This is beneficial for designers who sell icons on sites like Iconfinder that use dash-delimted file names to auto-tag uploads.
+This collection of scripts is run as a JavaScript Extension script for Adobe Illustrator. The script allows you to select an IconJar archive and imports the icons to individual artboards, using the icon tags from IconJar as the artboard names. The benefit of this is that you can then re-export the artboards to any file format you like, using the tags as file names. This is beneficial for designers who sell icons on sites like Iconfinder that use dash-delimted file names to auto-tag uploads. No more manually tagging icons on Iconfinder.
 
 ## IMPORTANT ##
 
-This app is *ONLY* compatible with MacOS. 
+Sorry, but this app is *ONLY* compatible with MacOS. The app uses AppleScript, an automation scripting language with no equivalent on Windows.
 
 ## Installation
 
-This is not a simple download-and-run script. By default, Adobe Illustrator scripts cannot communicate directly with NodeJS. JavaScript Extension in Illustrator _does_ have the ability to run external scripts via the `File.execute()` command, but this gives mixed results when trying to run command-line shell scripts. There is also no way to pass arguments to the file being executed.
-
-To get around these limitations, arguments to be used are written to a NodeJS-formatted file and the enclosed **Commander.app** AppleScript file runs the enclused NodeJS app. The app is pre-programmed to look for the arguments that were written to `./ai-nodejs-tools/var/module.js`.
+1. Download the Github archive and extract it where ever you like on your computer.
+2. Double-click on the **Installer** applet icon.
+3. Restart Adobe Illustrator.
 
 ## System Requirements
 
-1. Xcode
-2. NodeJS
-3. NPM
+1. MacOS
+2. JSON Helper AppleScript utility app from [MouseDown.net](http://www.mousedown.net/mouseware/JSONHelper.html)
 
-## Required/Helpful Knowledge
+## Helpful Skills
 
 1. Some familiarity with the command line `/Applications/Utilities/Terminal.app`
 2. Some ability to install applications
@@ -39,30 +38,15 @@ OR download the ZIP:
 https://github.com/iconifyit/iconjar-to-ai/archive/master.zip
 ```
     
-2. Location the download. If you downloaded the ZIP archive, double-click the ZIP file to extract it.
-3. Find the AppleScript applet named **ProfilerApp** in the _Helpers_ folder in this download, and double-click it.
-4. The **ProfilerApp** will check your system to determine if you need to install `Xcode`, `node`, or `npm`.
-5. To install `Node`, visit https://nodejs.org/en/download/ and follow the MacOS install instructions.
-6. To install `Xcode` locate the enclosed applet named **InstallXcodeTools** in the _Helpers_ folder in this download, and double-click it. If you get an error that says `1 : xcode-select: error: command line tools are already installed, use "Software Update" to install updates`, then you do not need to do anything else. You already have the required Xcode tools.
-7. After following the installation instructions for `node` and `Xcode`, run the **ProfilerApp** again. You should see **Yes** for all three required packages.
-8. Next, you will need to install the required node packages. To do so, open a Terminal window (`Applications/Utilities/Terminal`).
-9. At the command prompt, type the following:
-```bash
-cd /iconjar-to-ai/tools/
-npm install
-```
-Be sure the path after `cd` matches the path to your iconjar-to-ai install. For example, if you downloaded the git repository to your Desktop folder, the path would be
-```bash
-cd ~/Desktop/iconjar-to-ai/tools/
-```
+2. Locate the download. If you downloaded the ZIP archive, double-click the ZIP file to extract it.
+3. Find the AppleScript applet named **Installer** in the root folder in this download, and double-click it.
+4. The **Installer** app install the JavaScript Extension in the appropriate folder in Adobe Illustrator.
+5. Restart Adobe Illustrator.
+6. Navigate to `Adobe Illustrator > File > Scripts` and select **IconJar to Artboards**
+7. Select the IconJar archive you wish to import when prompted
+8. **IconJar to Artboards** will import the icons using the tags as the artboard names.
 
-#### Installing the Adobe Illustrator script
 
-1. Copy the script named **IconJar to Artboards.jsx** to `/Applications/Adobe Illustrator CC 2018/presets/en_US/Scripts/`
-2. Restart Adobe Illustrator
-3. Go to **File > Scripts > IconJar to Arboards** and follow the prompts.
-4. If the scripts and system requirements were isntalled correctly, you should see your icons being imported.
-5. If your icons are not being imported, then something went wrong. Please contact scott-at-atomiclotus-dot-net for help.
 
 
 
