@@ -1,0 +1,1810 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red76\green78\blue78;\red0\green0\blue0;\red108\green5\blue211;
+\red251\green0\blue7;\red64\green128\blue0;\red0\green0\blue255;\red0\green22\blue176;\red68\green21\blue176;
+}
+{\*\expandedcolortbl;;\csgenericrgb\c29999\c30457\c30457;\csgenericrgb\c0\c0\c0;\csgenericrgb\c42337\c1841\c82833;
+\cssrgb\c100000\c0\c0;\csgenericrgb\c25000\c50001\c0;\csgenericrgb\c0\c0\c100000;\csgenericrgb\c0\c8656\c68986;\csgenericrgb\c26552\c8264\c69162;
+}
+\deftab480
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 --\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf2 --	Created by: Scott Lewis\cf3 \
+\cf2 --	Created on: 4/6/18\cf3 \
+\cf2 --\cf3 \
+\cf2 --	Copyright \'a9 2018 Atomic Lotus, LLC. All Rights Reserved\cf3 \
+\cf2 --\cf3 \
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 property
+\b0 \cf3  \cf4 name\cf3  : \cf3 "Ralph"\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 get_tokens\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \{\'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{root\}\}"\cf3 , \cf6 value\cf3 :\cf6 root_dir\cf3 ()\}, \'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{home\}\}"\cf3 , \cf6 value\cf3 :\cf6 home_dir\cf3 ()\}, \'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{documents\}\}"\cf3 , \cf6 value\cf3 :\cf6 documents_dir\cf3 ()\}, \'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{downloads\}\}"\cf3 , \cf6 value\cf3 :\cf6 downloads_dir\cf3 ()\}, \'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{desktop\}\}"\cf3 , \cf6 value\cf3 :\cf6 desktop_dir\cf3 ()\}, \'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{locale\}\}"\cf3 , \cf6 value\cf3 :\cf6 get_ai_locale\cf3 ()\}, \'ac\
+		\{\cf4 name\cf3 :\cf3 "\{\{ai_path\}\}"\cf3 , \cf6 value\cf3 :\cf6 get_ai_path\cf3 ()\} \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			\}\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 get_tokens\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 tokenize\cf3 (\cf6 theString\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 tokens\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 get_tokens\cf3 ()\
+	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf6 theRecord\cf3  
+\b \cf3 in
+\b0 \cf3  \cf6 tokens\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 theToken\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 theRecord\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 theValue\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 value\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 theRecord\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 theString\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 str_replace\cf3 (\cf6 theString\cf3 , \cf6 theToken\cf3 , \cf6 theValue\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 tokenize\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 load_config\cf3 ()\
+	
+\b \cf3 script
+\b0 \cf3  \cf6 Settings\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 property
+\b0 \cf3  \cf4 name\cf3  : \cf3 ""\cf3 \
+		
+\b \cf3 property
+\b0 \cf3  \cf6 ROOT_PATH\cf3  : \cf3 ""\cf3 \
+		
+\b \cf3 property
+\b0 \cf3  \cf6 LOG_PATH\cf3  : \cf3 ""\cf3 \
+		
+\b \cf3 property
+\b0 \cf3  \cf6 CONFIG_PATH\cf3  : \cf3 ""\cf3 \
+		
+\b \cf3 property
+\b0 \cf3  \cf6 DELAY_IN_SECONDS\cf3  : \cf3 0\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 script
+\b0 \cf3 \
+	\
+	
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf6 INI\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 parse_ini\cf3 (\cf5 get_ini_path\cf3 ())\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 in
+\b0 \cf3  
+\b \cf3 every
+\b0 \cf3  
+\i \cf7 item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 INI\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf6 the_value\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 to_posix\cf3 (\cf5 tokenize\cf3 (\cf6 value\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3 ))\
+			
+\b \cf3 if
+\b0 \cf3  \cf4 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 is
+\b0 \cf3  \cf3 "ROOT_PATH"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 Settings's\cf3  \cf6 ROOT_PATH\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 the_value\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 if
+\b0 \cf3  \cf4 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 is
+\b0 \cf3  \cf3 "CONFIG_PATH"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 Settings's\cf3  \cf6 CONFIG_PATH\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 the_value\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 if
+\b0 \cf3  \cf4 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 is
+\b0 \cf3  \cf3 "LOG_PATH"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 Settings's\cf3  \cf6 LOG_PATH\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 the_value\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 if
+\b0 \cf3  \cf4 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 is
+\b0 \cf3  \cf3 "DELAY_IN_SECONDS"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 Settings's\cf3  \cf6 DELAY_IN_SECONDS\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf6 value\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 number
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 if
+\b0 \cf3  \cf4 name\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 is
+\b0 \cf3  \cf3 "SCRIPT_NAME"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 the_value\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 value\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_item\cf3 \
+				
+\b \cf3 if
+\b0 \cf3  \cf6 the_value\cf3  
+\b \cf3 does not
+\b0 \cf3  
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf3 ".jsx"\cf3  \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 					
+\b \cf3 or
+\b0 \cf3  \cf6 the_value\cf3  
+\b \cf3 does not
+\b0 \cf3  
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf3 ".js"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 					
+\b \cf3 set
+\b0 \cf3  \cf6 the_value\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 the_value\cf3  & \cf3 ".jsx"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 				
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 				
+\b \cf3 set
+\b0 \cf3  \cf6 Settings's\cf3  \cf4 name\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 str_replace\cf3 (\cf6 the_value\cf3 , \cf3 "'"\cf3 , \cf3 ""\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 err_str\cf3  \cf7 number\cf3  \cf6 err_number\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf7 log
+\b0 \cf3  \cf3 "ERROR in Utils:load_config() - "\cf3  & \cf6 err_str\cf3  & \cf3 "["\cf3  & \cf6 err_number\cf3  & \cf3 "]"\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 return
+\b0 \cf3  \cf6 Settings\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 load_config\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 get_ai_scripts_path\cf3 ()\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ai_path\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 tokenize\cf3 (\cf3 "\{\{ai_path\}\}"\cf3 )\
+	
+\b \cf3 return
+\b0 \cf3  \cf5 escape_path\cf3 ((\cf5 parent_dir\cf3 (\cf6 ai_path\cf3 ) \'ac\
+		& \cf5 tokenize\cf3 (\cf3 "Presets.localized/\{\{locale\}\}/Scripts/"\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3  \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		))\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 get_ai_scripts_path\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 write_line\cf3 (\cf6 theText\cf3 , \cf6 theFile\cf3 , \cf6 _append\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 op\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 " > "\cf3 \
+	
+\b \cf3 if
+\b0 \cf3  \cf6 _append\cf3  
+\b \cf3 then
+\b0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 op\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 " >> "\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf8 do shell script
+\b0 \cf3  ((\cf3 "echo  "\cf3  & \cf6 theText\cf3  & \cf6 op\cf3  & \cf6 theFile\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 write_line\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 root_dir\cf3 ()\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 the_root_dir\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  ((
+\b \cf8 path to
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3  \cf8 as\cf3  
+\i \cf7 text
+\i0 \cf3 ) & \cf3 "::"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 )\
+	
+\b \cf3 if
+\b0 \cf3  \cf6 the_root_dir\cf3  
+\b \cf3 ends with
+\b0 \cf3  \cf3 "/bin/"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 the_root_dir\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 parent_dir\cf3 (\cf6 the_root_dir\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 return
+\b0 \cf3  \cf6 the_root_dir\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 root_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 log_dir\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \cf5 root_dir\cf3 () & \cf3 "/var/log/"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 log_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 get_ai_path\cf3 ()\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 path to
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "Adobe Illustrator"\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 get_ai_path\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 get_ai_locale\cf3 ()\
+	
+\b \cf3 using terms from
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "Adobe Illustrator"\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf4 locale\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "Adobe Illustrator"\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 using terms from
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 get_ai_locale\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 get_ini_path\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  (\cf5 root_dir\cf3 () & \cf3 "conf/config.ini"\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 get_ini_path\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 home_dir\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 path to
+\b0 \cf3  
+\i \cf9 home folder
+\i0 \cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 home_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 documents_dir\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 path to
+\b0 \cf3  
+\i \cf9 documents folder
+\i0 \cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 documents_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 desktop_dir\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 path to
+\b0 \cf3  
+\i \cf9 desktop folder
+\i0 \cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 desktop_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 downloads_dir\cf3 ()\
+	
+\b \cf3 return
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 path to
+\b0 \cf3  
+\i \cf9 downloads folder
+\i0 \cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 downloads_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 to_posix\cf3 (\cf6 thepath\cf3 )\
+	
+\b \cf3 return
+\b0 \cf3  ((\cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 my
+\b0 \cf3  \cf5 expand_path\cf3 (\cf6 thepath\cf3 )) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 to_posix\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 to_alias\cf3 (\cf6 thepath\cf3 )\
+	(
+\i \cf7 POSIX file
+\i0 \cf3  (
+\b \cf3 my
+\b0 \cf3  \cf5 expand_path\cf3 (\cf6 thepath\cf3 ))) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 alias
+\i0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 to_alias\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 expand_path\cf3 (\cf6 givenPath\cf3 )\
+	\cf2 -- create a temporary Obj-C/Cocoa NSString object with the givenPath\cf3 \
+	\cf2 -- set tempCocoaString to current application's NSString's stringWithString:givenPath\cf3 \
+	\cf2 -- call the object's stringByExpandingTildeInPath method\cf3 \
+	\cf2 -- to create a new path with expanded tilde\cf3 \
+	\cf2 -- return (tempCocoaString's stringByExpandingTildeInPath) as string\cf3 \
+	
+\b \cf3 return
+\b0 \cf3  \cf5 str_replace\cf3 (\cf6 givenPath\cf3 , \cf3 "~/"\cf3 , \cf5 home_dir\cf3 ())\
+
+\b \cf3 end
+\b0 \cf3  \cf5 expand_path\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 escape_path\cf3 (\cf6 thepath\cf3 )\
+	
+\b \cf3 return
+\b0 \cf3  \cf5 str_replace\cf3 (\cf6 thepath\cf3 , \cf3 " "\cf3 , \cf3 "\\\\ "\cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf5 escape_path\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 app_exists\cf3 (\cf6 appname\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 appID\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 id\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf6 appname\cf3 \
+	
+\b \cf7 exists
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  
+\i \cf4 id
+\i0 \cf3  \cf6 appID\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 app_exists\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 which\cf3 (\cf6 app_name\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 the_app\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 app_name\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "Terminal"\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 if
+\b0 \cf3  
+\b \cf3 not
+\b0 \cf3  (
+\b \cf7 exists
+\b0 \cf3  
+\i \cf7 window
+\i0 \cf3  \cf3 1\cf3 ) 
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf7 reopen
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf7 do script
+\b0 \cf3  \cf7 with command\cf3  \cf3 "which "\cf3  & \cf6 app_name\cf3  & \cf3 " | /usr/bin/awk '\{ print "\cf3  & \cf3 "\\"RESULT:\\""\cf3  & \cf3 " $1\}'"\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf7 delay
+\b0 \cf3  \cf3 0.5\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf6 the_content\cf3  
+\b \cf3 to
+\b0 \cf3  (\cf4 contents\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf7 window
+\i0 \cf3  \cf3 1\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 n\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf7 count
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 every
+\b0 \cf3  
+\i \cf7 paragraph
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_content\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf7 close
+\b0 \cf3  
+\i \cf7 window
+\i0 \cf3  \cf3 1\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+	\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf6 i\cf3  
+\b \cf3 from
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 n\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 set
+\b0 \cf3  \cf6 test_str\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\i \cf7 characters
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  \cf3 7\cf3  
+\b \cf3 of
+\b0 \cf3  
+\i \cf7 paragraph
+\i0 \cf3  \cf6 i\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_content\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+			
+\b \cf7 log
+\b0 \cf3  \cf6 test_str\cf3 \
+			
+\b \cf3 if
+\b0 \cf3  \cf6 test_str\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 equal to
+\b0 \cf3  \cf3 "RESULT:"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 this_line\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 paragraph
+\i0 \cf3  \cf6 i\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_content\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+				
+\b \cf3 set
+\b0 \cf3  \cf6 the_app\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 trim_line\cf3 (\cf6 this_line\cf3 , \cf6 test_str\cf3 , \cf3 0\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 err_str\cf3  \cf7 number\cf3  \cf6 err_number\cf3 \
+			\cf2 -- log err_str & "[" & err_number & "]"\cf3 \
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 return
+\b0 \cf3  \cf6 the_app\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 which\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 trim\cf3 (\cf6 someText\cf3 )\
+	\cf2 -- default values (all whitespace)\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 theseCharacters\cf3  
+\b \cf3 to
+\b0 \cf3  \{\cf3 " "\cf3 , \cf4 tab\cf3 , 
+\b \cf8 ASCII character
+\b0 \cf3  \cf3 10\cf3 , \cf4 return\cf3 , 
+\b \cf8 ASCII character
+\b0 \cf3  \cf3 0\cf3 \}\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 until
+\b0 \cf3  
+\b \cf3 first
+\b0 \cf3  
+\i \cf7 character
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 someText\cf3  
+\b \cf3 is not
+\b0 \cf3  
+\b \cf3 in
+\b0 \cf3  \cf6 theseCharacters\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 someText\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 text
+\i0 \cf3  \cf3 2\cf3  
+\b \cf3 thru
+\b0 \cf3  \cf3 -1\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 someText\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 until
+\b0 \cf3  
+\b \cf3 last
+\b0 \cf3  
+\i \cf7 character
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 someText\cf3  
+\b \cf3 is not
+\b0 \cf3  
+\b \cf3 in
+\b0 \cf3  \cf6 theseCharacters\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 someText\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 text
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  \cf3 -2\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 someText\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+	\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 return
+\b0 \cf3  \cf6 someText\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 trim\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 write_to_file\cf3 (\cf6 this_data\cf3 , \cf6 target_file\cf3 , \cf6 append_data\cf3 ) \cf2 -- (string, file path as string, boolean)\cf3 \
+	
+\b \cf3 try
+\b0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf6 target_file\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf6 target_file\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 text
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf6 open_target_file\cf3  
+\b \cf3 to
+\b0 \cf3  \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf8 open for access
+\b0 \cf3  
+\i \cf7 file
+\i0 \cf3  \cf6 target_file\cf3  
+\b \cf3 with
+\b0 \cf3  \cf8 write permission\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 if
+\b0 \cf3  \cf6 append_data\cf3  
+\b \cf3 is
+\b0 \cf3  
+\i \cf4 false
+\i0 \cf3  
+\b \cf3 then
+\b0 \cf3  \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf8 set eof
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf6 open_target_file\cf3  \cf8 to\cf3  \cf3 0\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf8 write
+\b0 \cf3  \cf6 this_data\cf3  \cf8 to\cf3  
+\b \cf3 the
+\b0 \cf3  \cf6 open_target_file\cf3  \cf8 starting at\cf3  
+\i \cf9 eof
+\i0 \cf3 \
+		
+\b \cf8 close access
+\b0 \cf3  
+\b \cf3 the
+\b0 \cf3  \cf6 open_target_file\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  
+\i \cf4 true
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3 \
+		
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf8 close access
+\b0 \cf3  
+\i \cf7 file
+\i0 \cf3  \cf6 target_file\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 return
+\b0 \cf3  
+\i \cf4 false
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 write_to_file\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 read_file\cf3 (\cf6 unixPath\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 foo\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf8 open for access
+\b0 \cf3  (
+\i \cf7 POSIX file
+\i0 \cf3  \cf6 unixPath\cf3 ))\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 txt\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\b \cf8 read
+\b0 \cf3  \cf6 foo\cf3  \cf8 for\cf3  (
+\b \cf8 get eof
+\b0 \cf3  \cf6 foo\cf3 ))\
+	
+\b \cf8 close access
+\b0 \cf3  \cf6 foo\cf3 \
+	
+\b \cf3 return
+\b0 \cf3  \cf6 txt\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 read_file\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 file_exists\cf3 (\cf6 theFile\cf3 ) \cf2 -- (String) as Boolean\cf3 \
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "System Events"\cf3 \
+		
+\b \cf3 if
+\b0 \cf3  
+\b \cf7 exists
+\b0 \cf3  
+\i \cf7 file
+\i0 \cf3  \cf6 theFile\cf3  
+\b \cf3 then
+\b0 \cf3 \
+			
+\b \cf3 return
+\b0 \cf3  
+\i \cf4 true
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 else
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 return
+\b0 \cf3  
+\i \cf4 false
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 file_exists\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 parse_ini\cf3 (\cf6 ini_path\cf3 )\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 entries\cf3  
+\b \cf3 to
+\b0 \cf3  \{\}\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 name_value_pairs\cf3  
+\b \cf3 to
+\b0 \cf3  \{\}\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	\cf2 -- set theFile to read_file(ini_path)\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 set
+\b0 \cf3  \cf6 rows\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf8 read
+\b0 \cf3  \cf6 ini_path\cf3  \cf8 using delimiter\cf3  \cf4 return\cf3 \
+	
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf6 this_row\cf3  
+\b \cf3 in
+\b0 \cf3  \cf6 rows\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 if
+\b0 \cf3  \cf4 length\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 this_row\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 greater than
+\b0 \cf3  \cf3 1\cf3  
+\b \cf3 then
+\b0 \cf3 \
+				
+\b \cf3 if
+\b0 \cf3  
+\i \cf7 character
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 this_row\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 not
+\b0 \cf3  \cf3 ";"\cf3  
+\b \cf3 then
+\b0 \cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf6 entries\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 entries\cf3  & \cf6 this_row\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 list
+\i0 \cf3 \
+					
+\b \cf3 set
+\b0 \cf3  \cf6 key_value\cf3  
+\b \cf3 to
+\b0 \cf3  \cf5 split\cf3 (\cf6 this_row\cf3 , \cf3 "="\cf3 )\
+					
+\b \cf3 copy
+\b0 \cf3  \{\cf4 name\cf3 :(
+\i \cf7 item
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 key_value\cf3 ), \cf6 value\cf3 :(
+\i \cf7 item
+\i0 \cf3  \cf3 2\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 key_value\cf3 )\} 
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 name_value_pairs\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 				
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+			
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 if
+\b0 \cf3 \
+		
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 error
+\b0 \cf3  \cf3 "Can't parse ini: "\cf3  & \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 return
+\b0 \cf3  \cf6 name_value_pairs\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 parse_ini\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 split\cf3 (\cf6 the_string\cf3 , \cf6 the_delim\cf3 )\
+	
+\b \cf3 local
+\b0 \cf3  \cf6 ASTID\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ASTID\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 the_items\cf3  
+\b \cf3 to
+\b0 \cf3  \{\}\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 the_delim\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		\cf2 -- set the_items to every text item of the_string\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 repeat
+\b0 \cf3  
+\b \cf3 with
+\b0 \cf3  \cf6 the_item\cf3  
+\b \cf3 in
+\b0 \cf3  (
+\b \cf3 every
+\b0 \cf3  
+\i \cf7 text item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 the_string\cf3 )\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 the_items\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 the_items\cf3  & \cf5 trim\cf3 (\cf6 the_item\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 list
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 repeat
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf6 the_items\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 list
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 error
+\b0 \cf3  \cf3 "Can't do split: "\cf3  & \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 split\cf3 \
+\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf2 --c--   replaceString(theText, oldString, newString)\cf3 \
+\cf2 --d--   Case-sensitive find and replace of all occurrences.\cf3 \
+\cf2 --a--   theText : string -- the string to search\cf3 \
+\cf2 --a--   oldString : string -- the find string\cf3 \
+\cf2 --a--   newString : string -- the replacement string\cf3 \
+\cf2 --r--   string\cf3 \
+\cf2 --x--   replaceString("Hello hello", "hello", "Bye") --> "Hello Bye"\cf3 \
+\cf2 --u--   ljr (http://applescript.bratis-lover.net/library/string/)\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 on
+\b0 \cf3  \cf5 str_replace\cf3 (\cf6 theText\cf3 , \cf6 oldString\cf3 , \cf6 newString\cf3 )\
+	
+\b \cf3 local
+\b0 \cf3  \cf6 ASTID\cf3 , \cf6 theText\cf3 , \cf6 oldString\cf3 , \cf6 newString\cf3 , \cf6 lst\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ASTID\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 try
+\b0 \cf3 \
+		
+\b \cf3 considering
+\b0 \cf3  
+\i \cf4 case
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 oldString\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf6 lst\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 every
+\b0 \cf3  
+\i \cf7 text item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 theText\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 newString\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf6 theText\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 lst\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 considering
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf6 theText\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 error
+\b0 \cf3  \cf3 "Can't replaceString: "\cf3  & \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 str_replace\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 basename\cf3 (\cf6 thepath\cf3 )\
+	
+\b \cf3 local
+\b0 \cf3  \cf6 ASTID\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ASTID\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "/"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 theBaseName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 last
+\b0 \cf3  
+\i \cf7 text item
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 thepath\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf6 theBaseName\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 error
+\b0 \cf3  \cf3 "Can't get base name: "\cf3  & \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 basename\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 dirname\cf3 (\cf6 thepath\cf3 )\
+	
+\b \cf3 local
+\b0 \cf3  \cf6 ASTID\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ASTID\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "/"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 theBaseName\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\i \cf7 text items
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  \cf3 -2\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 thepath\cf3  & \cf3 ""\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf6 theBaseName\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 error
+\b0 \cf3  \cf3 "Can't get base name: "\cf3  & \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 dirname\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 parent_dir\cf3 (\cf6 thepath\cf3 )\
+	
+\b \cf3 local
+\b0 \cf3  \cf6 ASTID\cf3 \
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ASTID\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "/"\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 theBaseName\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\i \cf7 text items
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  \cf3 -3\cf3  
+\b \cf3 of
+\b0 \cf3  \cf6 thepath\cf3  & \cf3 ""\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 string
+\i0 \cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf6 theBaseName\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 set
+\b0 \cf3  \cf4 AppleScript's\cf3  \cf4 text item delimiters\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 ASTID\cf3 \
+		
+\b \cf3 error
+\b0 \cf3  \cf3 "Can't get base name: "\cf3  & \cf6 eMsg\cf3  \cf7 number\cf3  \cf6 eNum\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 parent_dir\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 strip_extension\cf3 (\cf6 someItem\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "System Events"\cf3 \
+		
+\b \cf3 tell
+\b0 \cf3  
+\i \cf7 disk item
+\i0 \cf3  (\cf6 someItem\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 text
+\i0 \cf3 ) 
+\b \cf3 to
+\b0 \cf3  \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 set
+\b0 \cf3  \{\cf6 theName\cf3 , \cf6 theExtension\cf3 \} 
+\b \cf3 to
+\b0 \cf3  \{\cf4 name\cf3 , \cf4 name extension\cf3 \}\
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 if
+\b0 \cf3  \cf6 theExtension\cf3  
+\b \cf3 is
+\b0 \cf3  
+\b \cf3 not
+\b0 \cf3  \cf3 ""\cf3  
+\b \cf3 then
+\b0 \cf3  
+\b \cf3 set
+\b0 \cf3  \cf6 theName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\i \cf7 text
+\i0 \cf3  \cf3 1\cf3  
+\b \cf3 thru
+\b0 \cf3  -((
+\b \cf7 count
+\b0 \cf3  \cf6 theExtension\cf3 ) + \cf3 2\cf3 ) 
+\b \cf3 of
+\b0 \cf3  \cf6 theName\cf3 \
+	
+\b \cf3 return
+\b0 \cf3  \cf6 theName\cf3 \
+
+\b \cf3 end
+\b0 \cf3  \cf5 strip_extension\cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf5 copy_file\cf3 (\cf6 oldFile\cf3 , \cf6 newFile\cf3 )\
+	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf7 application
+\i0 \cf3  \cf3 "Finder"\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 try
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 set
+\b0 \cf3  \cf6 oldFile\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\i \cf7 POSIX file
+\i0 \cf3  \cf6 oldFile\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 alias
+\i0 \cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf6 targetName\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 my
+\b0 \cf3  \cf5 basename\cf3 (\cf6 newFile\cf3 )\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 targetFolder\cf3  
+\b \cf3 to
+\b0 \cf3  (
+\i \cf7 POSIX file
+\i0 \cf3  (
+\b \cf3 my
+\b0 \cf3  \cf5 dirname\cf3 (\cf6 newFile\cf3 )) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf7 alias
+\i0 \cf3 )\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 dupeFile\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf7 duplicate
+\b0 \cf3  
+\i \cf7 file
+\i0 \cf3  \cf6 oldFile\cf3  \cf7 to\cf3  \cf6 targetFolder\cf3 \
+			
+\b \cf3 set
+\b0 \cf3  \cf6 dupeFile's\cf3  \cf4 name\cf3  
+\b \cf3 to
+\b0 \cf3  \cf6 targetName\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 msg\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 			
+\b \cf3 return
+\b0 \cf3  \cf6 msg\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\b \cf3 end
+\b0 \cf3  \cf5 copy_file}
