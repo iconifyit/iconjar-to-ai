@@ -9,13 +9,13 @@
  *     ARTBOARD_HEIGHT: number, 
  *     ARTBOARD_SPACING: number, 
  *     ARTBOARD_ROWSxCOLS: number, 
- *     DELAY_DURATION: number
+ *     DELAY_IN_SECONDS: number
  * }}
  */
 var DEFAULT_CONFIG = {
     // Enable logging
 
-    LOGGING          : true,
+    LOGGING             : true,
 
     // Location of the log file
 
@@ -47,5 +47,5 @@ var DEFAULT_CONFIG = {
 
     // Delay in seconds.
 
-    DELAY_DURATION      : 3
+    DELAY_IN_SECONDS    : 1
 };

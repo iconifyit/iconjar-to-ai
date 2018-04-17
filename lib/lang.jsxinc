@@ -26,7 +26,10 @@
  *     SORT_FILELIST_FAILED   : string,
  *     LABEL_SORT_ARTBOARDS   : string,
  *     PROGRESS               : string,
- *     SCRIPT_PROGRESS        : string
+ *     SCRIPT_PROGRESS        : string,
+ *     SCRIPT_CONFIG_FAILURE  : string,
+ *     META_JSON_LOAD_FAILURE : string,
+ *     NO_META_TAGS_FOUND     : string
  * }}
  */
 var LANG = {
@@ -55,5 +58,8 @@ var LANG = {
     SORT_FILELIST_FAILED   : 'Could not sort the file list',
     LABEL_SORT_ARTBOARDS   : 'Sort Artboards?',
     PROGRESS               : 'IconJar to Illustrator Progress',
-    SCRIPT_PROGRESS        : 'Progress'
+    SCRIPT_PROGRESS        : 'Progress',
+    SCRIPT_CONFIG_FAILURE  : 'The script configuration could not be initialized.',
+    META_JSON_LOAD_FAILURE : 'The meta data JSON object could not be loaded [%1].',
+    NO_META_TAGS_FOUND     : 'The meta data JSON object did not contain any tags [%1].'
 };

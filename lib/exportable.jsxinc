@@ -5,6 +5,7 @@ var EXPORTABLE = Utils.create({
     CONFIG_FILE_PATH    : "",
     START_DIR           : "",
     USER_HOME           : "",
+    ROOT                : "",
     ARTBOARD_WIDTH      : 0,
     ARTBOARD_HEIGHT     : 0,
     ARTBOARD_SPACING    : 0,
@@ -15,5 +16,5 @@ var EXPORTABLE = Utils.create({
     SRC_FILE            : "",
     OUTPUT_FILENAME     : "",
     COMMANDER_PATH      : "",
-    DELAY_DURATION      : 0
+    DELAY_IN_SECONDS    : 0
 });

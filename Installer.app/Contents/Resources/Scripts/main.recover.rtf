@@ -1,0 +1,174 @@
+{\rtf1\ansi\ansicpg1252\cocoartf1561\cocoasubrtf200
+{\fonttbl\f0\fnil\fcharset0 Verdana;}
+{\colortbl;\red255\green255\blue255;\red76\green78\blue78;\red0\green0\blue0;\red108\green5\blue211;
+\red0\green0\blue255;\red64\green128\blue0;\red251\green0\blue7;\red0\green22\blue176;}
+{\*\expandedcolortbl;;\csgenericrgb\c29999\c30457\c30457;\csgenericrgb\c0\c0\c0;\csgenericrgb\c42337\c1841\c82833;
+\csgenericrgb\c0\c0\c100000;\csgenericrgb\c25000\c50001\c0;\cssrgb\c100000\c0\c0;\csgenericrgb\c0\c8656\c68986;}
+\deftab480
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+
+\f0\fs24 \cf2 --\cf3 \
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf2 --	Created by: Scott Lewis\cf3 \
+\cf2 --	Created on: 4/6/18\cf3 \
+\cf2 -- \cf3 \
+\cf2 --	Copyright \'a9 2018 Atomic Lotus, LLC. All Rights Reserved\cf3 \
+\cf2 -- \cf3 \
+\
+
+\b \cf3 use
+\b0 \cf3  \cf4 AppleScript\cf3  \cf5 version\cf3  \cf3 "2.4"\cf3  \cf2 -- Yosemite (10.10) or later\cf3 \
+
+\b \cf3 use
+\b0 \cf3  
+\i \cf5 scripting additions
+\i0 \cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  
+\b \cf5 run
+\b0 \cf3 \
+	\
+	
+\b \cf3 set
+\b0 \cf3  \cf6 ScriptTools\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 my
+\b0 \cf3  \cf7 load_script\cf3 (\cf3 "utils.scptd"\cf3 )\
+	\
+	
+\b \cf3 try
+\b0 \cf3 \
+		
+\b \cf3 tell
+\b0 \cf3  \cf6 ScriptTools\cf3 \
+			\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 Settings\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 load_config\cf3 ()\
+			\
+			\cf2 -- Replace tokens with actual paths\cf3 \
+			\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 line1\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 tokenize\cf3 (\cf3 "'#includepath \\"\{\{root\}\}lib/jsx-common/\\";'"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf5 string
+\i0 \cf3 )\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 line2\cf3  
+\b \cf3 to
+\b0 \cf3  \cf7 tokenize\cf3 (\cf3 "'#include \\"\{\{root\}\}main.jsx\\";'"\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf5 string
+\i0 \cf3 )\
+			\
+			\cf2 -- Write  "IconJar to Artboards.jsx" to AI Scripts folder\cf3 \
+			\
+			
+\b \cf3 set
+\b0 \cf3  \cf6 output_file\cf3  
+\b \cf3 to
+\b0 \cf3  \cf4 POSIX path\cf3  
+\b \cf3 of
+\b0 \cf3  \cf7 tokenize\cf3 (\cf7 get_ai_scripts_path\cf3 () & \cf7 escape_path\cf3 (\cf6 Settings's\cf3  \cf4 name\cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf5 string
+\i0 \cf3 )\
+			\
+			\cf7 write_line\cf3 (\cf6 line1\cf3 , \cf6 output_file\cf3 , 
+\i \cf4 false
+\i0 \cf3 )\
+			\cf7 write_line\cf3 (\cf6 line2\cf3 , \cf6 output_file\cf3 , 
+\i \cf4 true
+\i0 \cf3 )\
+		
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 tell
+\b0 \cf3 \
+	
+\b \cf3 on
+\b0 \cf3  
+\b \cf3 error
+\b0 \cf3  \cf6 eMsg\cf3  \cf5 number\cf3  \cf6 eNum\cf3 \
+		
+\b \cf3 set
+\b0 \cf3  \cf6 the_error_message\cf3  
+\b \cf3 to
+\b0 \cf3  \cf3 "ERROR in Installer:run() - "\cf3  & \cf6 eNum\cf3  & \cf3 " : "\cf3  & \cf6 eMsg\cf3  
+\b \cf3 as
+\b0 \cf3  
+\i \cf5 string
+\i0 \cf3 \
+		
+\b \cf5 log
+\b0 \cf3  \cf6 the_error_message\cf3 \
+		
+\b \cf3 return
+\b0 \cf3  \cf6 the_error_message\cf3 \
+	
+\b \cf3 end
+\b0 \cf3  
+\b \cf3 try
+\b0 \cf3 \
+
+\b \cf3 end
+\b0 \cf3  
+\b \cf5 run
+\b0 \cf3 \
+\
+
+\b \cf3 on
+\b0 \cf3  \cf7 load_script\cf3 (\cf6 scriptName\cf3 )\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 	
+\b \cf3 tell
+\b0 \cf3  
+\i \cf5 application
+\i0 \cf3  \cf3 "Finder"\cf3  
+\b \cf3 to
+\b0 \cf3  
+\b \cf3 set
+\b0 \cf3  \cf6 theScript\cf3  
+\b \cf3 to
+\b0 \cf3  \'ac\
+\pard\pardeftab480\slleading40\pardirnatural\partightenfactor0
+\cf3 		(
+\i \cf5 container
+\i0 \cf3  
+\b \cf3 of
+\b0 \cf3  (
+\b \cf8 path to
+\b0 \cf3  
+\b \cf3 me
+\b0 \cf3 ) 
+\b \cf3 as
+\b0 \cf3  
+\i \cf5 string
+\i0 \cf3 ) & \cf3 "lib:oas:"\cf3  & \cf6 scriptName\cf3 \
+	
+\b \cf3 return
+\b0 \cf3  (
+\b \cf8 load script
+\b0 \cf3  
+\i \cf5 file
+\i0 \cf3  \cf6 theScript\cf3 )\
+
+\b \cf3 end
+\b0 \cf3  \cf7 load_script\cf3 \
+\
+\
+\
+\
+}
