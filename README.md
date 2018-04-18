@@ -46,9 +46,8 @@ https://github.com/iconifyit/iconjar-to-ai/archive/master.zip
 7. Select the IconJar archive you wish to import when prompted
 8. **IconJar to Artboards** will import the icons using the tags as the artboard names.
 
+## Support this Project
 
+This script has taken a lot of work but there is still much to be done. My goal is to create tools to help make icon designers' work much more efficient, thus allowing them to spend more time making icons and making more money. Support for importing IconJar archives is only the beginning. With your support, I can devote more time to creating useful tools like this one.
 
-
-
-
-
+[ ![Donate with PayPal] (https://raw.githubusercontent.com/stefan-niedermann/paypal-donate-button/master/paypal-donate-button.png) ] (https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=25PLV5HVYPNRE)
